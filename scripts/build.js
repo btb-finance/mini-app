@@ -320,7 +320,14 @@ async function main() {
     const accountAddress = await validateSeedPhrase(seedPhrase);
     console.log('✅ Generated account address from seed phrase');
 
-    const fid = await lookupFidByCustodyAddress(accountAddress, neynarApiKey ?? 'FARCASTER_V2_FRAMES_DEMO');
+    // Get FID - either from .env or by looking it up
+    let fid;
+    if (process.env.SKIP_FID_LOOKUP === "true" && process.env.FID) {
+      fid = parseInt(process.env.FID);
+      console.log(`✅ Using FID ${fid} from .env (skipping lookup)`);
+    } else {
+      fid = await lookupFidByCustodyAddress(accountAddress, neynarApiKey ?? 'FARCASTER_V2_FRAMES_DEMO');
+    }
 
     // Generate and sign manifest
     console.log('\n🔨 Generating frame manifest...');

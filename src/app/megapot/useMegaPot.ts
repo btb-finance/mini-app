@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { useAccount, useSendTransaction, usePublicClient } from "wagmi";
-import LOTTERY_CONTRACT_ADDRESS, { BTB_TOKEN_ADDRESS, USDC_TOKEN_ADDRESS, TICKET_PRICE_USDC } from "./constants";
+import { LOTTERY_CONTRACT_ADDRESS, USDC_TOKEN_ADDRESS, TICKET_PRICE_USDC } from "./constants";
 import lotteryAbi from "./lotteryabi.json";
 
 export interface SubscriptionDetails {

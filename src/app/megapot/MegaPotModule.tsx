@@ -5,7 +5,8 @@ import { Button } from "~/components/ui/Button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { useMegaPot } from "./useMegaPot";
-import LOTTERY_CONTRACT_ADDRESS, { 
+import { 
+  LOTTERY_CONTRACT_ADDRESS, 
   DEFAULT_TICKET_COUNT, 
   DEFAULT_DAYS_COUNT, 
   DEFAULT_TICKETS_PER_DAY 
