@@ -10,6 +10,9 @@
       "import": "./bin/init.js"
     }
   },
+  "engines": {
+    "node": ">=19.9.0"
+  },
   "types": "./index.d.ts",
   "scripts": {
     "dev": "node scripts/dev.js",
