@@ -200,79 +200,120 @@ export default function Demo(
     switch (activeFeature) {
       case 'megapot':
         return (
-          <div className="p-4 bg-purple-100 dark:bg-purple-900 rounded-lg">
+          <div className="p-4 bg-[#A52A2A]/10 dark:bg-[#8B0000]/20 rounded-lg">
             <h2 className="text-xl font-bold mb-2">Mega Pot</h2>
             <p className="mb-2">Stake your BTB tokens to earn rewards and participate in the weekly prize draw.</p>
             <div className="mb-2">
-              <Label htmlFor="stake-amount">Stake Amount</Label>
-              <Input id="stake-amount" type="number" placeholder="Enter amount to stake" />
+              <Label htmlFor="stake-amount" className="font-medium mb-1 block">Stake Amount</Label>
+              <Input 
+                id="stake-amount" 
+                type="number" 
+                placeholder="Enter amount to stake" 
+                style={{color: 'black', backgroundColor: 'white'}}
+                className="border-2 border-[#A52A2A]/50 focus:border-[#A52A2A] font-medium p-2 rounded w-full"
+                onChange={(e) => console.log("Stake amount:", e.target.value)}
+              />
             </div>
             <Button onClick={() => console.log("Staking not implemented yet")}>Stake BTB</Button>
           </div>
         );
       case 'bridge':
         return (
-          <div className="p-4 bg-blue-100 dark:bg-blue-900 rounded-lg">
+          <div className="p-4 bg-[#10B981]/10 dark:bg-[#10B981]/20 rounded-lg">
             <h2 className="text-xl font-bold mb-2">Bridge</h2>
             <p className="mb-2">Transfer your BTB tokens between different chains securely.</p>
             <div className="grid grid-cols-2 gap-2 mb-2">
               <div>
-                <Label htmlFor="from-chain">From Chain</Label>
-                <select id="from-chain" className="w-full p-2 rounded">
-                  <option value="base">Base</option>
-                  <option value="optimism">Optimism</option>
-                  <option value="ethereum">Ethereum</option>
+                <Label htmlFor="from-chain" className="font-medium mb-1 block">From Chain</Label>
+                <select 
+                  id="from-chain" 
+                  style={{color: '#1A1E23', backgroundColor: 'white'}}
+                  className="w-full p-2 rounded border-2 border-[#10B981]/50 focus:border-[#10B981] font-medium"
+                  onChange={(e) => console.log("From chain:", e.target.value)}
+                >
+                  <option style={{color: '#1A1E23', backgroundColor: 'white'}} value="base">Base</option>
+                  <option style={{color: '#1A1E23', backgroundColor: 'white'}} value="optimism">Optimism</option>
+                  <option style={{color: '#1A1E23', backgroundColor: 'white'}} value="ethereum">Ethereum</option>
                 </select>
               </div>
               <div>
-                <Label htmlFor="to-chain">To Chain</Label>
-                <select id="to-chain" className="w-full p-2 rounded">
-                  <option value="base">Base</option>
-                  <option value="optimism">Optimism</option>
-                  <option value="ethereum">Ethereum</option>
+                <Label htmlFor="to-chain" className="font-medium mb-1 block">To Chain</Label>
+                <select 
+                  id="to-chain" 
+                  style={{color: '#1A1E23', backgroundColor: 'white'}}
+                  className="w-full p-2 rounded border-2 border-[#10B981]/50 focus:border-[#10B981] font-medium"
+                  onChange={(e) => console.log("To chain:", e.target.value)}
+                >
+                  <option style={{color: '#1A1E23', backgroundColor: 'white'}} value="base">Base</option>
+                  <option style={{color: '#1A1E23', backgroundColor: 'white'}} value="optimism">Optimism</option>
+                  <option style={{color: '#1A1E23', backgroundColor: 'white'}} value="ethereum">Ethereum</option>
                 </select>
               </div>
             </div>
             <div className="mb-2">
-              <Label htmlFor="bridge-amount">Amount</Label>
-              <Input id="bridge-amount" type="number" placeholder="Enter amount to bridge" />
+              <Label htmlFor="bridge-amount" className="font-medium mb-1 block">Amount</Label>
+              <Input 
+                id="bridge-amount" 
+                type="number" 
+                placeholder="Enter amount to bridge" 
+                style={{color: 'black', backgroundColor: 'white'}}
+                className="border-2 border-[#10B981]/50 focus:border-[#10B981] font-medium p-2 rounded w-full"
+                onChange={(e) => console.log("Bridge amount:", e.target.value)}
+              />
             </div>
             <Button onClick={() => console.log("Bridge not implemented yet")}>Bridge BTB</Button>
           </div>
         );
       case 'chex':
         return (
-          <div className="p-4 bg-green-100 dark:bg-green-900 rounded-lg">
+          <div className="p-4 bg-[#8B0000]/10 dark:bg-[#8B0000]/20 rounded-lg">
             <h2 className="text-xl font-bold mb-2">BTB Chex</h2>
             <p className="mb-2">Swap BTB tokens for other cryptocurrencies or tokens.</p>
             <div className="grid grid-cols-2 gap-2 mb-2">
               <div>
-                <Label htmlFor="from-token">From</Label>
-                <select id="from-token" className="w-full p-2 rounded">
-                  <option value="btb">BTB</option>
-                  <option value="eth">ETH</option>
-                  <option value="usdc">USDC</option>
+                <Label htmlFor="from-token" className="font-medium mb-1 block">From</Label>
+                <select 
+                  id="from-token" 
+                  style={{color: '#1A1E23', backgroundColor: 'white'}}
+                  className="w-full p-2 rounded border-2 border-[#8B0000]/50 focus:border-[#8B0000] font-medium"
+                  onChange={(e) => console.log("From token:", e.target.value)}
+                >
+                  <option style={{color: '#1A1E23', backgroundColor: 'white'}} value="btb">BTB</option>
+                  <option style={{color: '#1A1E23', backgroundColor: 'white'}} value="eth">ETH</option>
+                  <option style={{color: '#1A1E23', backgroundColor: 'white'}} value="usdc">USDC</option>
                 </select>
               </div>
               <div>
-                <Label htmlFor="to-token">To</Label>
-                <select id="to-token" className="w-full p-2 rounded">
-                  <option value="eth">ETH</option>
-                  <option value="usdc">USDC</option>
-                  <option value="btb">BTB</option>
+                <Label htmlFor="to-token" className="font-medium mb-1 block">To</Label>
+                <select 
+                  id="to-token" 
+                  style={{color: '#1A1E23', backgroundColor: 'white'}}
+                  className="w-full p-2 rounded border-2 border-[#8B0000]/50 focus:border-[#8B0000] font-medium"
+                  onChange={(e) => console.log("To token:", e.target.value)}
+                >
+                  <option style={{color: '#1A1E23', backgroundColor: 'white'}} value="eth">ETH</option>
+                  <option style={{color: '#1A1E23', backgroundColor: 'white'}} value="usdc">USDC</option>
+                  <option style={{color: '#1A1E23', backgroundColor: 'white'}} value="btb">BTB</option>
                 </select>
               </div>
             </div>
             <div className="mb-2">
-              <Label htmlFor="swap-amount">Amount</Label>
-              <Input id="swap-amount" type="number" placeholder="Enter amount to swap" />
+              <Label htmlFor="swap-amount" className="font-medium mb-1 block">Amount</Label>
+              <Input 
+                id="swap-amount" 
+                type="number" 
+                placeholder="Enter amount to swap" 
+                style={{color: 'black', backgroundColor: 'white'}}
+                className="border-2 border-[#8B0000]/50 focus:border-[#8B0000] font-medium p-2 rounded w-full"
+                onChange={(e) => console.log("Swap amount:", e.target.value)}
+              />
             </div>
             <Button onClick={() => console.log("Swap not implemented yet")}>Swap</Button>
           </div>
         );
       case 'nft':
         return (
-          <div className="p-4 bg-yellow-100 dark:bg-yellow-900 rounded-lg">
+          <div className="p-4 bg-[#1A1E23]/10 dark:bg-[#1A1E23]/30 rounded-lg">
             <h2 className="text-xl font-bold mb-2">BTB NFTs</h2>
             <p className="mb-2">Explore and mint exclusive BTB NFTs.</p>
             <div className="grid grid-cols-2 gap-2 mb-4">
@@ -280,13 +321,13 @@ export default function Demo(
                 <div className="bg-gray-200 dark:bg-gray-700 h-24 w-full rounded mb-2"></div>
                 <p className="font-bold">BTB Genesis</p>
                 <p className="text-sm">Price: 0.1 ETH</p>
-                <Button className="mt-2 w-full" onClick={() => console.log("Mint not implemented yet")}>Mint</Button>
+                <Button className="mt-2 w-full bg-[#10B981] hover:bg-[#0D876A]" onClick={() => console.log("Mint not implemented yet")}>Mint</Button>
               </div>
               <div className="p-2 bg-white dark:bg-gray-800 rounded">
                 <div className="bg-gray-200 dark:bg-gray-700 h-24 w-full rounded mb-2"></div>
                 <p className="font-bold">BTB Founder</p>
                 <p className="text-sm">Price: 500 BTB</p>
-                <Button className="mt-2 w-full" onClick={() => console.log("Mint not implemented yet")}>Mint</Button>
+                <Button className="mt-2 w-full bg-[#10B981] hover:bg-[#0D876A]" onClick={() => console.log("Mint not implemented yet")}>Mint</Button>
               </div>
             </div>
           </div>
@@ -316,9 +357,9 @@ export default function Demo(
         {!isConnected && (
           <div className="mb-4 text-center">
             <p className="mb-2">Connect your wallet to view your BTB balance and use features</p>
-            <Button 
+            <Button
               onClick={() => connect({ connector: config.connectors[0] })}
-              className="bg-green-600 hover:bg-green-700"
+              className="btb-gradient hover:btb-gradient-dark"
             >
               Connect Wallet
             </Button>
@@ -327,7 +368,7 @@ export default function Demo(
 
         {/* Add BTB Token Balance Display */}
         {isConnected && (
-          <div className="mb-4 p-4 bg-blue-100 dark:bg-blue-900 rounded-lg">
+          <div className="mb-4 p-4 bg-[#8B0000]/10 dark:bg-[#8B0000]/20 rounded-lg">
             <h2 className="text-xl font-bold mb-2">BTB Token Balance</h2>
             <div className="flex items-center justify-between">
               <span>Balance:</span>
@@ -347,25 +388,25 @@ export default function Demo(
         {/* Feature Buttons */}
         <div className="mb-4 grid grid-cols-2 gap-2">
           <Button 
-            className={`p-3 ${activeFeature === 'megapot' ? 'bg-purple-600' : ''}`}
+            className={`p-3 ${activeFeature === 'megapot' ? 'bg-[#A52A2A]' : ''}`}
             onClick={() => handleFeatureClick('megapot')}
           >
             Mega Pot
           </Button>
           <Button 
-            className={`p-3 ${activeFeature === 'bridge' ? 'bg-blue-600' : ''}`}
+            className={`p-3 ${activeFeature === 'bridge' ? 'bg-[#10B981]' : ''}`}
             onClick={() => handleFeatureClick('bridge')}
           >
             Bridge
           </Button>
           <Button 
-            className={`p-3 ${activeFeature === 'chex' ? 'bg-green-600' : ''}`}
+            className={`p-3 ${activeFeature === 'chex' ? 'bg-[#8B0000]' : ''}`}
             onClick={() => handleFeatureClick('chex')}
           >
             Chex
           </Button>
           <Button 
-            className={`p-3 ${activeFeature === 'nft' ? 'bg-yellow-600' : ''}`}
+            className={`p-3 ${activeFeature === 'nft' ? 'bg-[#1A1E23]' : ''}`}
             onClick={() => handleFeatureClick('nft')}
           >
             NFT
@@ -396,7 +437,7 @@ export default function Demo(
 
               {isContextOpen && (
                 <div className="p-4 mt-2 bg-gray-100 dark:bg-gray-800 rounded-lg">
-                  <pre className="font-mono text-xs whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
+                  <pre className="font-mono text-xs text-[#1A1E23] dark:text-white whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
                     {JSON.stringify(context, null, 2)}
                   </pre>
                 </div>
@@ -408,7 +449,7 @@ export default function Demo(
 
               <div className="mb-4">
                 <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg my-2">
-                  <pre className="font-mono text-xs whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
+                  <pre className="font-mono text-xs text-[#1A1E23] dark:text-white whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
                     sdk.actions.signIn
                   </pre>
                 </div>
@@ -417,7 +458,7 @@ export default function Demo(
 
               <div className="mb-4">
                 <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg my-2">
-                  <pre className="font-mono text-xs whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
+                  <pre className="font-mono text-xs text-[#1A1E23] dark:text-white whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
                     sdk.actions.openUrl
                   </pre>
                 </div>
@@ -426,7 +467,7 @@ export default function Demo(
 
               <div className="mb-4">
                 <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg my-2">
-                  <pre className="font-mono text-xs whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
+                  <pre className="font-mono text-xs text-[#1A1E23] dark:text-white whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
                     sdk.actions.openUrl
                   </pre>
                 </div>
@@ -435,7 +476,7 @@ export default function Demo(
 
               <div className="mb-4">
                 <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg my-2">
-                  <pre className="font-mono text-xs whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
+                  <pre className="font-mono text-xs text-[#1A1E23] dark:text-white whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
                     sdk.actions.viewProfile
                   </pre>
                 </div>
@@ -444,7 +485,7 @@ export default function Demo(
 
               <div className="mb-4">
                 <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg my-2">
-                  <pre className="font-mono text-xs whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
+                  <pre className="font-mono text-xs text-[#1A1E23] dark:text-white whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
                     sdk.actions.close
                   </pre>
                 </div>
@@ -625,7 +666,7 @@ function SignIn() {
       {session && (
         <div className="my-2 p-2 text-xs overflow-x-scroll bg-gray-100 rounded-lg font-mono">
           <div className="font-semibold text-gray-500 mb-1">Session</div>
-          <div className="whitespace-pre">
+          <div className="whitespace-pre text-[#1A1E23] dark:text-white">
             {JSON.stringify(session, null, 2)}
           </div>
         </div>
@@ -633,13 +674,13 @@ function SignIn() {
       {signInFailure && !signingIn && (
         <div className="my-2 p-2 text-xs overflow-x-scroll bg-gray-100 rounded-lg font-mono">
           <div className="font-semibold text-gray-500 mb-1">SIWF Result</div>
-          <div className="whitespace-pre">{signInFailure}</div>
+          <div className="whitespace-pre text-[#1A1E23] dark:text-white">{signInFailure}</div>
         </div>
       )}
       {signInResult && !signingIn && (
         <div className="my-2 p-2 text-xs overflow-x-scroll bg-gray-100 rounded-lg font-mono">
           <div className="font-semibold text-gray-500 mb-1">SIWF Result</div>
-          <div className="whitespace-pre">
+          <div className="whitespace-pre text-[#1A1E23] dark:text-white">
             {JSON.stringify(signInResult, null, 2)}
           </div>
         </div>
@@ -664,7 +705,7 @@ function ViewProfile() {
           id="view-profile-fid"
           type="number"
           value={fid}
-          className="mb-2"
+          className="mb-2 text-[#1A1E23] dark:text-white font-bold"
           onChange={(e) => {
             setFid(e.target.value);
           }}

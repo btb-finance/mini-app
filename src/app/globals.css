@@ -4,13 +4,23 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #1A1E23;
+  --primary: #8B0000;
+  --primary-dark: #660000;
+  --primary-light: #A52A2A;
+  --secondary: #1A1E23;
+  --accent: #10B981;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #1A1E23;
+    --foreground: #ffffff;
+    --primary: #8B0000;
+    --primary-dark: #660000;
+    --primary-light: #A52A2A;
+    --secondary: #1A1E23;
+    --accent: #10B981;
   }
 }
 
@@ -18,6 +28,70 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: 'Inter', Helvetica, Arial, sans-serif;
+}
+
+/* Ensure input text is visible */
+input, textarea, select {
+  color: var(--foreground) !important;
+  -webkit-text-fill-color: var(--foreground) !important;
+  caret-color: var(--primary);
+}
+
+/* Force numeric inputs to have black text on white background */
+input[type="number"] {
+  color: black !important;
+  -webkit-text-fill-color: black !important;
+  background-color: white !important;
+}
+
+/* Force proper select colors for cross-browser compatibility */
+select {
+  appearance: auto !important;
+  background-color: var(--background) !important;
+  border: 1px solid #ccc !important;
+}
+
+/* Ensure select options are properly visible in dropdown */
+option {
+  color: #1A1E23 !important;
+  background-color: white !important;
+  font-weight: 500 !important;
+  padding: 8px !important;
+}
+
+/* Fix for Firefox select options */
+@-moz-document url-prefix() {
+  select {
+    color: #1A1E23 !important;
+    background-color: white !important;
+  }
+  
+  option {
+    color: #1A1E23 !important;
+    background-color: white !important;
+  }
+}
+
+/* Fix for autofill background */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--foreground) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.btb-gradient {
+  background: linear-gradient(to right, #8B0000, #A52A2A);
+}
+
+.btb-gradient-dark {
+  background: linear-gradient(to right, #660000, #8B0000);
 }
 
 * {
