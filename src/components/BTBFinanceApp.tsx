@@ -28,6 +28,7 @@ import { useSession } from "next-auth/react";
 import { Label } from "~/components/ui/label";
 import { useFrame } from "~/components/providers/FrameProvider";
 import tokenAbi from "../app/token/tokenabi.json";
+import { MegaPotModule } from "../app/megapot";
 
 // BTB Token contract address
 const BTB_TOKEN_ADDRESS = "0xBBF88F780072F5141dE94E0A711bD2ad2c1f83BB";
@@ -199,24 +200,7 @@ export default function Demo(
   const renderFeatureContent = () => {
     switch (activeFeature) {
       case 'megapot':
-        return (
-          <div className="p-4 bg-[#A52A2A]/10 dark:bg-[#8B0000]/20 rounded-lg">
-            <h2 className="text-xl font-bold mb-2">Mega Pot</h2>
-            <p className="mb-2">Stake your BTB tokens to earn rewards and participate in the weekly prize draw.</p>
-            <div className="mb-2">
-              <Label htmlFor="stake-amount" className="font-medium mb-1 block">Stake Amount</Label>
-              <Input 
-                id="stake-amount" 
-                type="number" 
-                placeholder="Enter amount to stake" 
-                style={{color: 'black', backgroundColor: 'white'}}
-                className="border-2 border-[#A52A2A]/50 focus:border-[#A52A2A] font-medium p-2 rounded w-full"
-                onChange={(e) => console.log("Stake amount:", e.target.value)}
-              />
-            </div>
-            <Button onClick={() => console.log("Staking not implemented yet")}>Stake BTB</Button>
-          </div>
-        );
+        return <MegaPotModule />;
       case 'bridge':
         return (
           <div className="p-4 bg-[#10B981]/10 dark:bg-[#10B981]/20 rounded-lg">
