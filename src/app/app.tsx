@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 
 
 // note: dynamic import is required for components that use the Frame SDK
-const Demo = dynamic(() => import("~/components/Demo"), {
+const Demo = dynamic(() => import("~/components/BTBFinanceApp"), {
   ssr: false,
 });
 
