@@ -17,7 +17,7 @@
   "scripts": {
     "dev": "node scripts/dev.js",
     "build": "node scripts/build.js",
-    "nextbuild": "next build",
+    "nextbuild": "next build --no-lint",
     "netlify:build": "pnpm build && pnpm nextbuild",
     "start": "next start",
     "lint": "next lint",
