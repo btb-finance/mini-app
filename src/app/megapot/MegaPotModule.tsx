@@ -13,9 +13,11 @@ import LOTTERY_CONTRACT_ADDRESS, {
 
 export interface MegaPotModuleProps {
   className?: string;
+  isFullscreen?: boolean;
+  onBack?: () => void;
 }
 
-export function MegaPotModule({ className = "" }: MegaPotModuleProps) {
+export function MegaPotModule({ className = "", isFullscreen = false, onBack }: MegaPotModuleProps) {
   const [activeTab, setActiveTab] = useState<'buy' | 'subscribe' | 'history'>('buy');
   const [ticketAmount, setTicketAmount] = useState(DEFAULT_TICKET_COUNT);
   const [ticketsPerDay, setTicketsPerDay] = useState(DEFAULT_TICKETS_PER_DAY);
@@ -34,28 +36,55 @@ export function MegaPotModule({ className = "" }: MegaPotModuleProps) {
   } = useMegaPot();
 
   return (
-    <div className={`p-3 bg-[#A52A2A]/10 dark:bg-[#8B0000]/20 rounded-lg w-full max-w-[300px] mx-auto text-sm ${className}`}>
-      <h2 className="text-lg font-bold mb-2">Mega Pot</h2>
-      <p className="mb-2 text-sm">Buy tickets to enter the weekly prize draw. 1 USDC per ticket.</p>
+    <div className={`p-3 bg-[#A52A2A]/10 dark:bg-[#8B0000]/20 rounded-lg w-full ${isFullscreen ? 'fixed inset-0 z-50 overflow-y-auto rounded-none bg-white dark:bg-gray-900' : 'max-w-[300px] mx-auto'} text-sm ${className}`}>
+      {isFullscreen && (
+        <div className="sticky top-0 left-0 right-0 bg-white dark:bg-gray-900 pt-2 pb-1 mb-2 z-10 border-b border-gray-200 dark:border-gray-800">
+          <button 
+            onClick={onBack}
+            className="absolute top-2 left-2 flex items-center justify-center p-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full shadow-sm text-black dark:text-white"
+            aria-label="Back to home"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          <h2 className="text-lg font-bold text-center pt-1.5 pb-1 text-black dark:text-white">Mega Pot</h2>
+        </div>
+      )}
+      
+      {!isFullscreen && (
+        <h2 className="text-lg font-bold mb-2">Mega Pot</h2>
+      )}
+      
+      <p className="mb-2 text-sm text-center">{isFullscreen ? "Enter the weekly prize draw for 1 USDC per ticket" : "Buy tickets to enter the weekly prize draw. 1 USDC per ticket."}</p>
       
       <div className="mb-3">
-        <div className="flex border-b border-[#8B0000]/30 mb-3">
+        <div className="flex justify-between bg-gray-100 dark:bg-gray-800 rounded-lg p-1.5 mx-auto" style={{maxWidth: isFullscreen ? '95%' : '100%'}}>
           <button 
-            className={`py-1 px-2 text-xs ${activeTab === 'buy' ? 'font-bold border-b-2 border-[#8B0000]' : ''}`}
+            className={`py-2.5 flex-1 text-xs rounded-md transition-colors flex flex-col items-center ${activeTab === 'buy' ? 'font-bold bg-white dark:bg-gray-700 shadow-sm text-black dark:text-white' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700/50'}`}
             onClick={() => setActiveTab('buy')}
           >
+            <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 mb-1 ${activeTab === 'buy' ? 'text-[#8B0000] dark:text-[#ff6b6b]' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
+            </svg>
             Buy Tickets
           </button>
           <button 
-            className={`py-1 px-2 text-xs ${activeTab === 'subscribe' ? 'font-bold border-b-2 border-[#8B0000]' : ''}`}
+            className={`py-2.5 flex-1 text-xs rounded-md transition-colors flex flex-col items-center ${activeTab === 'subscribe' ? 'font-bold bg-white dark:bg-gray-700 shadow-sm text-black dark:text-white' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700/50'}`}
             onClick={() => setActiveTab('subscribe')}
           >
+            <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 mb-1 ${activeTab === 'subscribe' ? 'text-[#8B0000] dark:text-[#ff6b6b]' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
             Subscribe
           </button>
           <button 
-            className={`py-1 px-2 text-xs ${activeTab === 'history' ? 'font-bold border-b-2 border-[#8B0000]' : ''}`}
+            className={`py-2.5 flex-1 text-xs rounded-md transition-colors flex flex-col items-center ${activeTab === 'history' ? 'font-bold bg-white dark:bg-gray-700 shadow-sm text-black dark:text-white' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700/50'}`}
             onClick={() => setActiveTab('history')}
           >
+            <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 mb-1 ${activeTab === 'history' ? 'text-[#8B0000] dark:text-[#ff6b6b]' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            </svg>
             My Tickets
           </button>
         </div>
@@ -63,8 +92,8 @@ export function MegaPotModule({ className = "" }: MegaPotModuleProps) {
         {activeTab === 'buy' && (
           <>
             <div className="mb-3 p-2 bg-[#8B0000]/5 rounded text-xs">
-              <h3 className="font-medium mb-1">How it works:</h3>
-              <ul className="list-disc pl-4 space-y-0.5">
+              <h3 className="font-medium mb-1 text-black dark:text-white">How it works:</h3>
+              <ul className="list-disc pl-4 space-y-0.5 text-gray-800 dark:text-gray-200">
                 <li>Each ticket costs 1 USDC</li>
                 <li>Weekly drawings with multiple winners</li>
                 <li>More tickets = higher chances</li>
@@ -73,13 +102,13 @@ export function MegaPotModule({ className = "" }: MegaPotModuleProps) {
             </div>
             
             <div className="mb-2">
-              <Label htmlFor="ticket-amount" className="font-medium mb-1 block text-xs">Number of Tickets</Label>
+              <Label htmlFor="ticket-amount" className="font-medium mb-1 block text-xs text-black dark:text-white">Number of Tickets</Label>
               <Input 
                 id="ticket-amount" 
                 type="number" 
                 placeholder="Enter number of tickets" 
                 style={{color: 'black', backgroundColor: 'white'}}
-                className="border-2 border-[#A52A2A]/50 focus:border-[#A52A2A] font-medium p-1.5 rounded w-full text-sm"
+                className="border-2 border-[#A52A2A]/50 focus:border-[#A52A2A] font-medium p-1.5 rounded w-full text-sm dark:text-black"
                 value={ticketAmount}
                 onChange={(e) => setTicketAmount(e.target.value)}
                 min="1"
@@ -88,7 +117,7 @@ export function MegaPotModule({ className = "" }: MegaPotModuleProps) {
             </div>
             
             <div className="text-right mb-2">
-              <p className="text-xs">Total Cost: {parseFloat(ticketAmount || "0")} USDC</p>
+              <p className="text-xs text-gray-800 dark:text-gray-200">Total Cost: {parseFloat(ticketAmount || "0")} USDC</p>
             </div>
             
             <Button 
@@ -104,8 +133,8 @@ export function MegaPotModule({ className = "" }: MegaPotModuleProps) {
         {activeTab === 'subscribe' && (
           <>
             <div className="mb-3 p-2 bg-[#8B0000]/5 rounded text-xs">
-              <h3 className="font-medium mb-1">Subscription Benefits:</h3>
-              <ul className="list-disc pl-4 space-y-0.5">
+              <h3 className="font-medium mb-1 text-black dark:text-white">Subscription Benefits:</h3>
+              <ul className="list-disc pl-4 space-y-0.5 text-gray-800 dark:text-gray-200">
                 <li>Automatic daily entries</li>
                 <li>Special cashback for subscribers</li>
                 <li>Never miss a drawing</li>
@@ -114,13 +143,13 @@ export function MegaPotModule({ className = "" }: MegaPotModuleProps) {
             </div>
             
             <div className="mb-2">
-              <Label htmlFor="tickets-per-day" className="font-medium mb-1 block text-xs">Tickets Per Day</Label>
+              <Label htmlFor="tickets-per-day" className="font-medium mb-1 block text-xs text-black dark:text-white">Tickets Per Day</Label>
               <Input 
                 id="tickets-per-day" 
                 type="number" 
                 placeholder="Enter tickets per day" 
                 style={{color: 'black', backgroundColor: 'white'}}
-                className="border-2 border-[#A52A2A]/50 focus:border-[#A52A2A] font-medium p-1.5 rounded w-full text-sm"
+                className="border-2 border-[#A52A2A]/50 focus:border-[#A52A2A] font-medium p-1.5 rounded w-full text-sm dark:text-black"
                 value={ticketsPerDay}
                 onChange={(e) => setTicketsPerDay(e.target.value)}
                 min="1"
@@ -129,13 +158,13 @@ export function MegaPotModule({ className = "" }: MegaPotModuleProps) {
             </div>
             
             <div className="mb-2">
-              <Label htmlFor="day-count" className="font-medium mb-1 block text-xs">Number of Days</Label>
+              <Label htmlFor="day-count" className="font-medium mb-1 block text-xs text-black dark:text-white">Number of Days</Label>
               <Input 
                 id="day-count" 
                 type="number" 
                 placeholder="Enter number of days" 
                 style={{color: 'black', backgroundColor: 'white'}}
-                className="border-2 border-[#A52A2A]/50 focus:border-[#A52A2A] font-medium p-1.5 rounded w-full text-sm"
+                className="border-2 border-[#A52A2A]/50 focus:border-[#A52A2A] font-medium p-1.5 rounded w-full text-sm dark:text-black"
                 value={dayCount}
                 onChange={(e) => setDayCount(e.target.value)}
                 min="1"
@@ -144,7 +173,7 @@ export function MegaPotModule({ className = "" }: MegaPotModuleProps) {
             </div>
             
             <div className="text-right mb-2">
-              <p className="text-xs">Total Cost: {parseInt(ticketsPerDay || "0") * parseInt(dayCount || "0")} USDC</p>
+              <p className="text-xs text-gray-800 dark:text-gray-200">Total Cost: {parseInt(ticketsPerDay || "0") * parseInt(dayCount || "0")} USDC</p>
             </div>
             
             <div className="grid grid-cols-2 gap-2">
