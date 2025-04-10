@@ -57,12 +57,17 @@ export function MegaPotModule({ className = "", isFullscreen = false, onBack }: 
         <h2 className="text-lg font-bold mb-2">Mega Pot</h2>
       )}
       
-      <p className="mb-2 text-sm text-center">{isFullscreen ? "Enter the weekly prize draw for 1 USDC per ticket" : "Buy tickets to enter the weekly prize draw. 1 USDC per ticket."}</p>
+      <div className="mb-3 mx-auto text-center" style={{maxWidth: isFullscreen ? '80%' : '100%'}}>
+        <p className="mb-1 text-sm">{isFullscreen ? "Enter the weekly prize draw for 1 USDC per ticket" : "Buy tickets to enter the weekly prize draw. 1 USDC per ticket."}</p>
+        <div className="inline-block bg-gradient-to-r from-red-600 to-orange-500 text-white text-xs font-bold px-2 py-1 rounded-md">
+          Get up to 15% Cash Back on Purchases!
+        </div>
+      </div>
       
       <div className="mb-3">
-        <div className="flex justify-between bg-gray-100 dark:bg-gray-800 rounded-lg p-1.5 mx-auto" style={{maxWidth: isFullscreen ? '95%' : '100%'}}>
+        <div className="flex justify-between bg-gray-100 dark:bg-gray-800 rounded-lg p-1.5 mx-auto" style={{maxWidth: isFullscreen ? '90%' : '100%'}}>
           <button 
-            className={`py-2.5 flex-1 text-xs rounded-md transition-colors flex flex-col items-center ${activeTab === 'buy' ? 'font-bold bg-white dark:bg-gray-700 shadow-sm text-black dark:text-white' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700/50'}`}
+            className={`py-2 flex-1 text-xs rounded-md transition-colors flex flex-col items-center ${activeTab === 'buy' ? 'font-bold bg-white dark:bg-gray-700 shadow-sm text-black dark:text-white' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700/50'}`}
             onClick={() => setActiveTab('buy')}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 mb-1 ${activeTab === 'buy' ? 'text-[#8B0000] dark:text-[#ff6b6b]' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -71,7 +76,7 @@ export function MegaPotModule({ className = "", isFullscreen = false, onBack }: 
             Buy Tickets
           </button>
           <button 
-            className={`py-2.5 flex-1 text-xs rounded-md transition-colors flex flex-col items-center ${activeTab === 'subscribe' ? 'font-bold bg-white dark:bg-gray-700 shadow-sm text-black dark:text-white' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700/50'}`}
+            className={`py-2 flex-1 text-xs rounded-md transition-colors flex flex-col items-center ${activeTab === 'subscribe' ? 'font-bold bg-white dark:bg-gray-700 shadow-sm text-black dark:text-white' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700/50'}`}
             onClick={() => setActiveTab('subscribe')}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 mb-1 ${activeTab === 'subscribe' ? 'text-[#8B0000] dark:text-[#ff6b6b]' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -80,7 +85,7 @@ export function MegaPotModule({ className = "", isFullscreen = false, onBack }: 
             Subscribe
           </button>
           <button 
-            className={`py-2.5 flex-1 text-xs rounded-md transition-colors flex flex-col items-center ${activeTab === 'history' ? 'font-bold bg-white dark:bg-gray-700 shadow-sm text-black dark:text-white' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700/50'}`}
+            className={`py-2 flex-1 text-xs rounded-md transition-colors flex flex-col items-center ${activeTab === 'history' ? 'font-bold bg-white dark:bg-gray-700 shadow-sm text-black dark:text-white' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700/50'}`}
             onClick={() => setActiveTab('history')}
           >
             <svg xmlns="http://www.w3.org/2000/svg" className={`h-4 w-4 mb-1 ${activeTab === 'history' ? 'text-[#8B0000] dark:text-[#ff6b6b]' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -92,17 +97,17 @@ export function MegaPotModule({ className = "", isFullscreen = false, onBack }: 
         
         {activeTab === 'buy' && (
           <>
-            <div className="mb-3 p-2 bg-[#8B0000]/5 rounded text-xs">
+            <div className="mb-3 p-2 bg-[#8B0000]/5 rounded text-xs mx-auto" style={{maxWidth: isFullscreen ? '90%' : '100%'}}>
               <h3 className="font-medium mb-1 text-black dark:text-white">How it works:</h3>
               <ul className="list-disc pl-4 space-y-0.5 text-gray-800 dark:text-gray-200">
                 <li>Each ticket costs 1 USDC</li>
                 <li>Weekly drawings with multiple winners</li>
                 <li>More tickets = higher chances</li>
-                <li>Receive cashback on purchases</li>
+                <li>Get up to 15% cashback on purchases</li>
               </ul>
             </div>
             
-            <div className="mb-2">
+            <div className="mb-2 mx-auto" style={{maxWidth: isFullscreen ? '90%' : '100%'}}>
               <Label htmlFor="ticket-amount" className="font-medium mb-1 block text-xs text-black dark:text-white">Number of Tickets</Label>
               <Input 
                 id="ticket-amount" 
@@ -117,33 +122,35 @@ export function MegaPotModule({ className = "", isFullscreen = false, onBack }: 
               />
             </div>
             
-            <div className="text-right mb-2">
+            <div className="text-right mb-2 mx-auto" style={{maxWidth: isFullscreen ? '90%' : '100%'}}>
               <p className="text-xs text-gray-800 dark:text-gray-200">Total Cost: {parseFloat(ticketAmount || "0")} USDC</p>
             </div>
             
-            <Button 
-              onClick={() => purchaseTickets(ticketAmount)}
-              disabled={isProcessing || !isConnected}
-              className="py-2 text-sm"
-            >
-              {isProcessing ? "Processing..." : "Buy Tickets"}
-            </Button>
+            <div className="mx-auto" style={{maxWidth: isFullscreen ? '90%' : '100%'}}>
+              <Button 
+                onClick={() => purchaseTickets(ticketAmount)}
+                disabled={isProcessing || !isConnected}
+                className="py-2 text-sm w-full"
+              >
+                {isProcessing ? "Processing..." : "Buy Tickets"}
+              </Button>
+            </div>
           </>
         )}
         
         {activeTab === 'subscribe' && (
           <>
-            <div className="mb-3 p-2 bg-[#8B0000]/5 rounded text-xs">
+            <div className="mb-3 p-2 bg-[#8B0000]/5 rounded text-xs mx-auto" style={{maxWidth: isFullscreen ? '90%' : '100%'}}>
               <h3 className="font-medium mb-1 text-black dark:text-white">Subscription Benefits:</h3>
               <ul className="list-disc pl-4 space-y-0.5 text-gray-800 dark:text-gray-200">
                 <li>Automatic daily entries</li>
-                <li>Special cashback for subscribers</li>
+                <li>15% cashback for subscribers</li>
                 <li>Never miss a drawing</li>
                 <li>Cancel anytime for a refund</li>
               </ul>
             </div>
             
-            <div className="mb-2">
+            <div className="mb-2 mx-auto" style={{maxWidth: isFullscreen ? '90%' : '100%'}}>
               <Label htmlFor="tickets-per-day" className="font-medium mb-1 block text-xs text-black dark:text-white">Tickets Per Day</Label>
               <Input 
                 id="tickets-per-day" 
@@ -158,7 +165,7 @@ export function MegaPotModule({ className = "", isFullscreen = false, onBack }: 
               />
             </div>
             
-            <div className="mb-2">
+            <div className="mb-2 mx-auto" style={{maxWidth: isFullscreen ? '90%' : '100%'}}>
               <Label htmlFor="day-count" className="font-medium mb-1 block text-xs text-black dark:text-white">Number of Days</Label>
               <Input 
                 id="day-count" 
@@ -173,11 +180,11 @@ export function MegaPotModule({ className = "", isFullscreen = false, onBack }: 
               />
             </div>
             
-            <div className="text-right mb-2">
+            <div className="text-right mb-2 mx-auto" style={{maxWidth: isFullscreen ? '90%' : '100%'}}>
               <p className="text-xs text-gray-800 dark:text-gray-200">Total Cost: {parseInt(ticketsPerDay || "0") * parseInt(dayCount || "0")} USDC</p>
             </div>
             
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-2 mx-auto" style={{maxWidth: isFullscreen ? '90%' : '100%'}}>
               <Button 
                 onClick={() => createSubscription(ticketsPerDay, dayCount)}
                 disabled={isProcessing || !isConnected}

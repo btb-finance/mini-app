@@ -29,6 +29,9 @@ import { Label } from "~/components/ui/label";
 import { useFrame } from "~/components/providers/FrameProvider";
 import tokenAbi from "../app/token/tokenabi.json";
 import { MegaPotModule } from "../app/megapot";
+import { ChicksModule } from "../app/chicks";
+import { NFTModule } from "../app/nft";
+import { NFT_PRICE_BTB } from "../app/nft/constants";
 
 // BTB Token contract address
 const BTB_TOKEN_ADDRESS = "0xBBF88F780072F5141dE94E0A711bD2ad2c1f83BB";
@@ -195,7 +198,7 @@ export default function Demo(
 
   // Feature handlers
   const handleFeatureClick = (feature: string) => {
-    if (feature === 'megapot') {
+    if (feature === 'megapot' || feature === 'chicks' || feature === 'nft') {
       setIsFullscreen(true);
     }
     setActiveFeature(feature);
@@ -215,130 +218,20 @@ export default function Demo(
             onBack={handleBackFromFullscreen}
           />
         );
-      case 'bridge':
-        if (!isFullscreen) {
-          return (
-            <div className="p-4 bg-[#10B981]/10 dark:bg-[#10B981]/20 rounded-lg">
-              <h2 className="text-xl font-bold mb-2">Bridge</h2>
-              <p className="mb-2">Transfer your BTB tokens between different chains securely.</p>
-              <div className="grid grid-cols-2 gap-2 mb-2">
-                <div>
-                  <Label htmlFor="from-chain" className="font-medium mb-1 block">From Chain</Label>
-                  <select 
-                    id="from-chain" 
-                    style={{color: '#1A1E23', backgroundColor: 'white'}}
-                    className="w-full p-2 rounded border-2 border-[#10B981]/50 focus:border-[#10B981] font-medium"
-                    onChange={(e) => console.log("From chain:", e.target.value)}
-                  >
-                    <option style={{color: '#1A1E23', backgroundColor: 'white'}} value="base">Base</option>
-                    <option style={{color: '#1A1E23', backgroundColor: 'white'}} value="optimism">Optimism</option>
-                    <option style={{color: '#1A1E23', backgroundColor: 'white'}} value="ethereum">Ethereum</option>
-                  </select>
-                </div>
-                <div>
-                  <Label htmlFor="to-chain" className="font-medium mb-1 block">To Chain</Label>
-                  <select 
-                    id="to-chain" 
-                    style={{color: '#1A1E23', backgroundColor: 'white'}}
-                    className="w-full p-2 rounded border-2 border-[#10B981]/50 focus:border-[#10B981] font-medium"
-                    onChange={(e) => console.log("To chain:", e.target.value)}
-                  >
-                    <option style={{color: '#1A1E23', backgroundColor: 'white'}} value="base">Base</option>
-                    <option style={{color: '#1A1E23', backgroundColor: 'white'}} value="optimism">Optimism</option>
-                    <option style={{color: '#1A1E23', backgroundColor: 'white'}} value="ethereum">Ethereum</option>
-                  </select>
-                </div>
-              </div>
-              <div className="mb-2">
-                <Label htmlFor="bridge-amount" className="font-medium mb-1 block">Amount</Label>
-                <Input 
-                  id="bridge-amount" 
-                  type="number" 
-                  placeholder="Enter amount to bridge" 
-                  style={{color: 'black', backgroundColor: 'white'}}
-                  className="border-2 border-[#10B981]/50 focus:border-[#10B981] font-medium p-2 rounded w-full"
-                  onChange={(e) => console.log("Bridge amount:", e.target.value)}
-                />
-              </div>
-              <Button onClick={() => console.log("Bridge not implemented yet")}>Bridge BTB</Button>
-            </div>
-          );
-        }
-        return null;
-      case 'chex':
-        if (!isFullscreen) {
-          return (
-            <div className="p-4 bg-[#8B0000]/10 dark:bg-[#8B0000]/20 rounded-lg">
-              <h2 className="text-xl font-bold mb-2">BTB Chex</h2>
-              <p className="mb-2">Swap BTB tokens for other cryptocurrencies or tokens.</p>
-              <div className="grid grid-cols-2 gap-2 mb-2">
-                <div>
-                  <Label htmlFor="from-token" className="font-medium mb-1 block">From</Label>
-                  <select 
-                    id="from-token" 
-                    style={{color: '#1A1E23', backgroundColor: 'white'}}
-                    className="w-full p-2 rounded border-2 border-[#8B0000]/50 focus:border-[#8B0000] font-medium"
-                    onChange={(e) => console.log("From token:", e.target.value)}
-                  >
-                    <option style={{color: '#1A1E23', backgroundColor: 'white'}} value="btb">BTB</option>
-                    <option style={{color: '#1A1E23', backgroundColor: 'white'}} value="eth">ETH</option>
-                    <option style={{color: '#1A1E23', backgroundColor: 'white'}} value="usdc">USDC</option>
-                  </select>
-                </div>
-                <div>
-                  <Label htmlFor="to-token" className="font-medium mb-1 block">To</Label>
-                  <select 
-                    id="to-token" 
-                    style={{color: '#1A1E23', backgroundColor: 'white'}}
-                    className="w-full p-2 rounded border-2 border-[#8B0000]/50 focus:border-[#8B0000] font-medium"
-                    onChange={(e) => console.log("To token:", e.target.value)}
-                  >
-                    <option style={{color: '#1A1E23', backgroundColor: 'white'}} value="eth">ETH</option>
-                    <option style={{color: '#1A1E23', backgroundColor: 'white'}} value="usdc">USDC</option>
-                    <option style={{color: '#1A1E23', backgroundColor: 'white'}} value="btb">BTB</option>
-                  </select>
-                </div>
-              </div>
-              <div className="mb-2">
-                <Label htmlFor="swap-amount" className="font-medium mb-1 block">Amount</Label>
-                <Input 
-                  id="swap-amount" 
-                  type="number" 
-                  placeholder="Enter amount to swap" 
-                  style={{color: 'black', backgroundColor: 'white'}}
-                  className="border-2 border-[#8B0000]/50 focus:border-[#8B0000] font-medium p-2 rounded w-full"
-                  onChange={(e) => console.log("Swap amount:", e.target.value)}
-                />
-              </div>
-              <Button onClick={() => console.log("Swap not implemented yet")}>Swap</Button>
-            </div>
-          );
-        }
-        return null;
+      case 'chicks':
+        return (
+          <ChicksModule 
+            isFullscreen={isFullscreen} 
+            onBack={handleBackFromFullscreen}
+          />
+        );
       case 'nft':
-        if (!isFullscreen) {
-          return (
-            <div className="p-4 bg-[#1A1E23]/10 dark:bg-[#1A1E23]/30 rounded-lg">
-              <h2 className="text-xl font-bold mb-2">BTB NFTs</h2>
-              <p className="mb-2">Explore and mint exclusive BTB NFTs.</p>
-              <div className="grid grid-cols-2 gap-2 mb-4">
-                <div className="p-2 bg-white dark:bg-gray-800 rounded">
-                  <div className="bg-gray-200 dark:bg-gray-700 h-24 w-full rounded mb-2"></div>
-                  <p className="font-bold">BTB Genesis</p>
-                  <p className="text-sm">Price: 0.1 ETH</p>
-                  <Button className="mt-2 w-full bg-[#10B981] hover:bg-[#0D876A]" onClick={() => console.log("Mint not implemented yet")}>Mint</Button>
-                </div>
-                <div className="p-2 bg-white dark:bg-gray-800 rounded">
-                  <div className="bg-gray-200 dark:bg-gray-700 h-24 w-full rounded mb-2"></div>
-                  <p className="font-bold">BTB Founder</p>
-                  <p className="text-sm">Price: 500 BTB</p>
-                  <Button className="mt-2 w-full bg-[#10B981] hover:bg-[#0D876A]" onClick={() => console.log("Mint not implemented yet")}>Mint</Button>
-                </div>
-              </div>
-            </div>
-          );
-        }
-        return null;
+        return (
+          <NFTModule 
+            isFullscreen={isFullscreen} 
+            onBack={handleBackFromFullscreen}
+          />
+        );
       default:
         return null;
     }
@@ -356,159 +249,157 @@ export default function Demo(
         paddingLeft: context?.client.safeAreaInsets?.left ?? 0,
         paddingRight: context?.client.safeAreaInsets?.right ?? 0,
       }}
+      className="bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-black min-h-screen"
     >
-      <div className="w-[300px] mx-auto py-2 px-2">
+      <div className={`${isFullscreen ? 'w-full max-w-md' : 'w-full max-w-[300px]'} mx-auto py-2 px-2`}>
         {/* App title - hide when in fullscreen */}
-        {!isFullscreen && <h1 className="text-2xl font-bold text-center mb-4">{title}</h1>}
+        {!isFullscreen && (
+          <div className="text-center mb-3">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
+              {title}
+            </h1>
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">
+              Decentralized Finance Ecosystem
+            </p>
+          </div>
+        )}
 
         {/* Connect wallet button if not connected - hide when in fullscreen */}
         {!isConnected && !isFullscreen && (
           <div className="mb-4 text-center">
-            <p className="mb-2">Connect your wallet to view your BTB balance and use features</p>
-            <Button
-              onClick={() => connect({ connector: config.connectors[0] })}
-              className="btb-gradient hover:btb-gradient-dark"
-            >
-              Connect Wallet
-            </Button>
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 mb-3">
+              <div className="mb-3 h-16 sm:h-20 flex items-center justify-center">
+                <img src="/btb-logo.png" alt="BTB Finance Logo" className="h-16 w-16 object-contain" />
+              </div>
+              <p className="mb-3 text-xs text-gray-600 dark:text-gray-300">
+                Connect your wallet to access the BTB Finance ecosystem and explore all features.
+              </p>
+              <Button
+                onClick={() => connect({ connector: config.connectors[0] })}
+                className="w-full py-2 text-sm bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-xl"
+              >
+                Connect Wallet
+              </Button>
+            </div>
+            
+            <div className="grid grid-cols-3 gap-1 mb-3">
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-2 text-center shadow-md">
+                <div className="text-blue-500 dark:text-blue-400 text-lg mb-0.5">10%</div>
+                <div className="text-[10px] text-gray-500 dark:text-gray-400">Staking APY</div>
+              </div>
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-2 text-center shadow-md">
+                <div className="text-purple-500 dark:text-purple-400 text-lg mb-0.5">5k+</div>
+                <div className="text-[10px] text-gray-500 dark:text-gray-400">Holders</div>
+              </div>
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-2 text-center shadow-md">
+                <div className="text-green-500 dark:text-green-400 text-lg mb-0.5">3</div>
+                <div className="text-[10px] text-gray-500 dark:text-gray-400">Chains</div>
+              </div>
+            </div>
           </div>
         )}
 
         {/* Add BTB Token Balance Display - hide when in fullscreen */}
         {isConnected && !isFullscreen && (
-          <div className="mb-4 p-4 bg-[#8B0000]/10 dark:bg-[#8B0000]/20 rounded-lg">
-            <h2 className="text-xl font-bold mb-2">BTB Token Balance</h2>
-            <div className="flex items-center justify-between">
-              <span>Balance:</span>
-              <span className="font-mono text-lg font-bold">{parseFloat(tokenBalance).toFixed(4)} BTB</span>
-            </div>
-            <div className="text-right mt-2">
-              <Button 
-                onClick={() => disconnect()}
-                className="text-xs bg-transparent hover:bg-gray-200 dark:hover:bg-gray-700"
-              >
-                Disconnect
-              </Button>
+          <div className="mb-4">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-3 mb-3">
+              <div className="flex justify-between items-center mb-2">
+                <h2 className="text-lg font-bold text-gray-800 dark:text-white">Wallet</h2>
+                <Button 
+                  onClick={() => disconnect()}
+                  className="text-xs bg-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white py-1 px-2"
+                >
+                  Disconnect
+                </Button>
+              </div>
+              
+              <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-3 mb-2">
+                <div className="text-xs text-gray-500 dark:text-gray-400 mb-0.5">Your BTB Balance</div>
+                <div className="flex items-end">
+                  <span className="text-xl font-bold text-gray-800 dark:text-white">{parseFloat(tokenBalance).toFixed(2)}</span>
+                  <span className="ml-1 text-xs text-gray-600 dark:text-gray-300">BTB</span>
+                </div>
+              </div>
+              
+              <div className="text-xs text-gray-500 dark:text-gray-400 mb-0.5">Connected Address</div>
+              <div className="text-xs font-mono text-gray-700 dark:text-gray-300 truncate">
+                {address ? address.slice(0, 6) + '...' + address.slice(-4) : ''}
+              </div>
             </div>
           </div>
         )}
         
         {/* Feature Buttons - hide when in fullscreen */}
         {!isFullscreen && (
-          <div className="mb-4 grid grid-cols-2 gap-2">
-            <Button 
-              className={`p-3 ${activeFeature === 'megapot' ? 'bg-[#A52A2A]' : ''}`}
-              onClick={() => handleFeatureClick('megapot')}
-            >
-              Mega Pot
-            </Button>
-            <Button 
-              className={`p-3 ${activeFeature === 'bridge' ? 'bg-[#10B981]' : ''}`}
-              onClick={() => handleFeatureClick('bridge')}
-            >
-              Bridge
-            </Button>
-            <Button 
-              className={`p-3 ${activeFeature === 'chex' ? 'bg-[#8B0000]' : ''}`}
-              onClick={() => handleFeatureClick('chex')}
-            >
-              Chex
-            </Button>
-            <Button 
-              className={`p-3 ${activeFeature === 'nft' ? 'bg-[#1A1E23]' : ''}`}
-              onClick={() => handleFeatureClick('nft')}
-            >
-              NFT
-            </Button>
+          <div className="mb-4">
+            <h2 className="text-lg font-bold mb-2 text-gray-800 dark:text-white">Explore BTB</h2>
+            <div className="grid grid-cols-2 gap-2">
+              <div 
+                className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden cursor-pointer transition-transform hover:scale-105"
+                onClick={() => handleFeatureClick('megapot')}
+              >
+                <div className="h-16 sm:h-20 bg-gradient-to-r from-red-500 to-orange-500 flex items-center justify-center">
+                  <span className="text-white font-bold text-lg">🎯</span>
+                </div>
+                <div className="p-2">
+                  <h3 className="font-bold text-gray-800 dark:text-white text-sm">Mega Pot</h3>
+                  <div className="flex justify-between items-center">
+                    <p className="text-[10px] text-gray-500 dark:text-gray-400">Win big with BTB</p>
+                    <span className="bg-gradient-to-r from-red-600 to-orange-500 text-white text-[9px] font-bold px-1 py-0.5 rounded">15% CASHBACK</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div 
+                className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden cursor-pointer transition-transform hover:scale-105"
+                onClick={() => handleFeatureClick('chicks')}
+              >
+                <div className="h-16 sm:h-20 bg-gradient-to-r from-green-500 to-teal-500 flex items-center justify-center">
+                  <span className="text-white font-bold text-lg">🐥</span>
+                </div>
+                <div className="p-2">
+                  <h3 className="font-bold text-gray-800 dark:text-white text-sm">Chicks</h3>
+                  <p className="text-[10px] text-gray-500 dark:text-gray-400">Trade & earn with Chicks</p>
+                </div>
+              </div>
+              
+              <div 
+                className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden cursor-pointer transition-transform hover:scale-105 col-span-2"
+                onClick={() => handleFeatureClick('nft')}
+              >
+                <div className="h-16 sm:h-20 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+                  <span className="text-white font-bold text-lg">🖼️</span>
+                </div>
+                <div className="p-2">
+                  <h3 className="font-bold text-gray-800 dark:text-white text-sm">NFT Collection</h3>
+                  <p className="text-[10px] text-gray-500 dark:text-gray-400">Mint BTB NFTs for {NFT_PRICE_BTB} BTB</p>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 
         {/* Feature Content */}
         {activeFeature && renderFeatureContent()}
 
-        {/* Rest of the original components - hide when a feature is active or in fullscreen mode */}
+        {/* Footer - hide when a feature is active or in fullscreen mode */}
         {!activeFeature && !isFullscreen && (
-          <>
-            <div className="mb-4">
-              <h2 className="font-2xl font-bold">Context</h2>
-              <button
-                onClick={toggleContext}
-                className="flex items-center gap-2 transition-colors"
-              >
-                <span
-                  className={`transform transition-transform ${
-                    isContextOpen ? "rotate-90" : ""
-                  }`}
-                >
-                  ➤
-                </span>
-                Tap to expand
-              </button>
-
-              {isContextOpen && (
-                <div className="p-4 mt-2 bg-gray-100 dark:bg-gray-800 rounded-lg">
-                  <pre className="font-mono text-xs text-[#1A1E23] dark:text-white whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
-                    {JSON.stringify(context, null, 2)}
-                  </pre>
-                </div>
-              )}
+          <div className="text-center text-[10px] text-gray-500 dark:text-gray-400 pt-1 border-t border-gray-200 dark:border-gray-700">
+            <p className="mb-1">© 2023 BTB Finance. All rights reserved.</p>
+            <div className="flex justify-center space-x-3 mt-1">
+              <a href="#" className="hover:text-gray-700 dark:hover:text-gray-300">Twitter</a>
+              <a href="#" className="hover:text-gray-700 dark:hover:text-gray-300">Telegram</a>
+              <a href="#" className="hover:text-gray-700 dark:hover:text-gray-300">Docs</a>
             </div>
-
-            <div>
-              <h2 className="font-2xl font-bold">Actions</h2>
-
-              <div className="mb-4">
-                <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg my-2">
-                  <pre className="font-mono text-xs text-[#1A1E23] dark:text-white whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
-                    sdk.actions.signIn
-                  </pre>
-                </div>
-                <SignIn />
-              </div>
-
-              <div className="mb-4">
-                <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg my-2">
-                  <pre className="font-mono text-xs text-[#1A1E23] dark:text-white whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
-                    sdk.actions.openUrl
-                  </pre>
-                </div>
-                <Button onClick={openUrl}>Open Link</Button>
-              </div>
-
-              <div className="mb-4">
-                <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg my-2">
-                  <pre className="font-mono text-xs text-[#1A1E23] dark:text-white whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
-                    sdk.actions.openUrl
-                  </pre>
-                </div>
-                <Button onClick={openWarpcastUrl}>Open Warpcast Link</Button>
-              </div>
-
-              <div className="mb-4">
-                <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg my-2">
-                  <pre className="font-mono text-xs text-[#1A1E23] dark:text-white whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
-                    sdk.actions.viewProfile
-                  </pre>
-                </div>
-                <ViewProfile />
-              </div>
-
-              <div className="mb-4">
-                <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg my-2">
-                  <pre className="font-mono text-xs text-[#1A1E23] dark:text-white whitespace-pre-wrap break-words max-w-[260px] overflow-x-">
-                    sdk.actions.close
-                  </pre>
-                </div>
-                <Button onClick={close}>Close Frame</Button>
-              </div>
-            </div>
-          </>
+          </div>
         )}
         
         {/* Back button when a feature is active - hide when in fullscreen (MegaPot has its own back button) */}
         {activeFeature && !isFullscreen && (
-          <div className="mt-4">
-            <Button onClick={() => setActiveFeature(null)}>← Back to Home</Button>
+          <div className="mt-3">
+            <Button onClick={() => setActiveFeature(null)} className="text-xs py-1.5 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-white">
+              ← Back to Home
+            </Button>
           </div>
         )}
       </div>
