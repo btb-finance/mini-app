@@ -7,6 +7,7 @@ import { Providers } from "~/app/providers";
 export const metadata: Metadata = {
   title: process.env.NEXT_PUBLIC_FRAME_NAME || "Frames v2 Demo",
   description: process.env.NEXT_PUBLIC_FRAME_DESCRIPTION || "A Farcaster Frames v2 demo app",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "https://mini.btb.finance"),
 };
 
 export default async function RootLayout({
