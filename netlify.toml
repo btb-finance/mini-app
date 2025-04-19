@@ -13,4 +13,10 @@
 [[redirects]]
   from = "/*"
   to = "/index.html"
-  status = 200 
+  status = 200
+
+[[redirects]]
+  from = "https://mini.btb.finance/*"
+  to = "https://mini.btb.finance/:splat"
+  status = 301
+  force = true 

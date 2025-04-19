@@ -52,17 +52,17 @@ for (const line of lines) {
         const fallbackMetadata = {
           accountAssociation: {
             header: "eyJ0eXBlIjoiY3VzdG9keSIsImtleSI6IjB4MWJmRjZkNUU1OGJmMTY2MmEyNWQxRjJlMWYwYzVBMTkxRDExQzczZSIsImZpZCI6MTIzNDV9",
-            payload: "eyJkb21haW4iOiJidGJtaW5pYXBwLm5ldGxpZnkuYXBwIn0",
+            payload: "eyJkb21haW4iOiJtaW5pLmJ0Yi5maW5hbmNlIn0",
             signature: "MHhhNmE4MGQ0ZTEyZWQ5NzkxOWRkODAxYjRjZGEwN2E1YWZjZDQ4ZjBiYjdlMGI5YjE3YTU4YjI2OTk5OTQ1ZGU1NWZmM2U1ZjE4YzBhZTRkNTg1ZGZiZTFhZDZkOWRkZmY5OTg5ZDViZWY0ZDFiNzI0MGM0NWRjZGNlZGI4NDhjMDFi"
           },
           frame: {
             version: "1",
             name: "btbfinance",
-            iconUrl: "https://btbminiapp.netlify.app/icon.png",
-            homeUrl: "https://btbminiapp.netlify.app",
-            imageUrl: "https://btbminiapp.netlify.app/opengraph-image",
+            iconUrl: "https://mini.btb.finance/icon.png",
+            homeUrl: "https://mini.btb.finance",
+            imageUrl: "https://mini.btb.finance/opengraph-image",
             buttonTitle: "Launch Frame",
-            splashImageUrl: "https://btbminiapp.netlify.app/splash.png",
+            splashImageUrl: "https://mini.btb.finance/splash.png",
             splashBackgroundColor: "#f7f7f7",
             webhookUrl: "https://api.neynar.com/f/app/b8ef3593-7d21-4e7e-8e37-17adfec955d8/event"
           }
