@@ -23,7 +23,7 @@ export function useFrame() {
   const addFrame = useCallback(async () => {
     try {
       setNotificationDetails(null);
-
+      
       const result = await sdk.actions.addFrame();
 
       if (result.notificationDetails) {
@@ -31,7 +31,7 @@ export function useFrame() {
       }
       setAddFrameResult(
         result.notificationDetails
-          ? `Added, got notificaton token ${result.notificationDetails.token} and url ${result.notificationDetails.url}`
+          ? `Added, got notification token ${result.notificationDetails.token} and url ${result.notificationDetails.url}`
           : "Added, got no notification details"
       );
     } catch (error) {
@@ -90,9 +90,17 @@ export function useFrame() {
         setLastEvent("Primary button clicked");
       });
 
-      // Call ready action
+      // Call ready action with proper options
       console.log("Calling ready");
-      sdk.actions.ready({});
+      try {
+        await sdk.actions.ready({
+          // Disable native gestures if your app has custom swipe interactions
+          // disableNativeGestures: false
+        });
+        console.log("Ready action completed successfully");
+      } catch (error) {
+        console.error("Error calling ready action:", error);
+      }
 
       // Set up MIPD Store
       const store = createStore();

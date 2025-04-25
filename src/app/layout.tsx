@@ -5,9 +5,21 @@ import "~/app/globals.css";
 import { Providers } from "~/app/providers";
 
 export const metadata: Metadata = {
-  title: process.env.NEXT_PUBLIC_FRAME_NAME || "Frames v2 Demo",
-  description: process.env.NEXT_PUBLIC_FRAME_DESCRIPTION || "A Farcaster Frames v2 demo app",
+  title: process.env.NEXT_PUBLIC_FRAME_NAME || "BTB Finance",
+  description: process.env.NEXT_PUBLIC_FRAME_DESCRIPTION || "Decentralized Finance Ecosystem",
   metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "https://mini.btb.finance"),
+  openGraph: {
+    title: "BTB Finance",
+    description: "Decentralized Finance Ecosystem",
+    images: ["/api/og"],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BTB Finance",
+    description: "Decentralized Finance Ecosystem",
+    images: ["/api/og"],
+  },
 };
 
 export default async function RootLayout({

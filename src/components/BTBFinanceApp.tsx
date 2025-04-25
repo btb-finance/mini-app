@@ -269,7 +269,7 @@ export default function Demo(
           <div className="mb-4 text-center">
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 mb-3">
               <div className="mb-3 h-16 sm:h-20 flex items-center justify-center">
-                <img src="/btb-logo.png" alt="BTB Finance Logo" className="h-16 w-16 object-contain" />
+                <img src="/logo.avif" alt="BTB Finance Logo" className="h-16 w-16 object-contain" />
               </div>
               <p className="mb-3 text-xs text-gray-600 dark:text-gray-300">
                 Connect your wallet to access the BTB Finance ecosystem and explore all features.
@@ -382,14 +382,49 @@ export default function Demo(
         {/* Feature Content */}
         {activeFeature && renderFeatureContent()}
 
+        {/* Share Button - hide when in fullscreen mode */}
+        {!isFullscreen && (
+          <div className="mb-4">
+            <Button
+              onClick={addFrame}
+              className="w-full py-2 text-sm bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-medium rounded-xl flex items-center justify-center"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+              </svg>
+              Share BTB Finance
+            </Button>
+            {added && (
+              <div className="mt-2 text-xs text-center text-green-600 dark:text-green-400">
+                Frame added successfully! You can now find BTB Finance in your app list.
+              </div>
+            )}
+          </div>
+        )}
+        
         {/* Footer - hide when a feature is active or in fullscreen mode */}
         {!activeFeature && !isFullscreen && (
           <div className="text-center text-[10px] text-gray-500 dark:text-gray-400 pt-1 border-t border-gray-200 dark:border-gray-700">
             <p className="mb-1">© 2023 BTB Finance. All rights reserved.</p>
             <div className="flex justify-center space-x-3 mt-1">
-              <a href="#" className="hover:text-gray-700 dark:hover:text-gray-300">Twitter</a>
-              <a href="#" className="hover:text-gray-700 dark:hover:text-gray-300">Telegram</a>
-              <a href="#" className="hover:text-gray-700 dark:hover:text-gray-300">Docs</a>
+              <a href="https://twitter.com/btb_finance" target="_blank" rel="noopener noreferrer" className="hover:text-gray-700 dark:hover:text-gray-300 flex items-center">
+                <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                </svg>
+                X
+              </a>
+              <a href="https://t.me/btbfinance" target="_blank" rel="noopener noreferrer" className="hover:text-gray-700 dark:hover:text-gray-300 flex items-center">
+                <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248c-.14.63-.37 2.752-.521 3.653-.63 3.486-1.247 5.359-1.654 5.359-.281 0-.521-.416-.984-1.239-1.826-2.929-2.59-4.527-3.067-4.527-.119 0-.34.17-.661.511-.601.601-.863 1.247-.863 1.933 0 .833.416 1.736 1.247 2.712.833.976 1.736 1.933 2.712 2.87 1.176 1.106 2.383 1.933 3.618 2.474 1.176.542 2.193.833 3.067.833.976 0 1.796-.17 2.473-.511.676-.34 1.176-.781 1.499-1.316.323-.542.484-1.176.484-1.903 0-.34-.051-.601-.17-.781-.119-.17-.323-.281-.601-.34-.281-.051-.781-.051-1.499 0-1.654.119-2.929.119-3.829 0-.893-.119-1.569-.391-2.023-.833-.456-.44-.781-.976-.976-1.596-.119-.34-.119-.661 0-.976.119-.323.34-.601.661-.833.323-.231.691-.34 1.106-.34.781 0 1.569.34 2.383 1.019.833.681 1.654 1.596 2.473 2.752.833 1.176 1.499 2.193 1.994 3.067.494.833.893 1.247 1.176 1.247.34 0 .601-.119.781-.34.17-.231.281-.601.34-1.106.051-.511.119-1.316.17-2.383.051-1.074.051-1.903 0-2.473-.051-.571-.17-.976-.34-1.247-.17-.281-.456-.456-.833-.511-.381-.051-.893-.051-1.569 0z"/>
+                </svg>
+                Telegram
+              </a>
+              <a href="https://www.btb.finance" target="_blank" rel="noopener noreferrer" className="hover:text-gray-700 dark:hover:text-gray-300 flex items-center">
+                <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"></path>
+                </svg>
+                Docs
+              </a>
             </div>
           </div>
         )}
