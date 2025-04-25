@@ -2,11 +2,11 @@
   "frame": {
     "version": "1",
     "name": "BTB Finance",
-    "iconUrl": "https://mini.btb.finance/api/frame-image",
+    "iconUrl": "https://mini.btb.finance/images/btb-logo.png",
     "homeUrl": "https://mini.btb.finance/",
-    "imageUrl": "https://mini.btb.finance/api/cover-image",
+    "imageUrl": "https://mini.btb.finance/frame.html",
     "buttonTitle": "🚀 Launch",
-    "splashImageUrl": "https://mini.btb.finance/api/frame-image",
+    "splashImageUrl": "https://mini.btb.finance/images/btb-logo.png",
     "splashBackgroundColor": "#1e3a8a",
     "category": "finance"
   }
