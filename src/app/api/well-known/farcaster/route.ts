@@ -6,11 +6,11 @@ export async function GET() {
     frame: {
       version: "1",
       name: "BTB Finance",
-      iconUrl: "https://mini.btb.finance/logo.avif",
+      iconUrl: "https://mini.btb.finance/api/frame-image",
       homeUrl: "https://mini.btb.finance/",
-      imageUrl: "https://mini.btb.finance/api/og",
+      imageUrl: "https://mini.btb.finance/api/splash-image",
       buttonTitle: "🚀 Launch",
-      splashImageUrl: "https://mini.btb.finance/logo.avif",
+      splashImageUrl: "https://mini.btb.finance/api/frame-image",
       splashBackgroundColor: "#1e3a8a",
       category: "finance"
     }
