@@ -32,6 +32,7 @@ import { MegaPotModule } from "../app/megapot";
 import { ChicksModule } from "../app/chicks";
 import { NFTModule } from "../app/nft";
 import { NFT_PRICE_BTB } from "../app/nft/constants";
+import { LarryModule } from "../app/larry";
 
 // BTB Token contract address
 const BTB_TOKEN_ADDRESS = "0xBBF88F780072F5141dE94E0A711bD2ad2c1f83BB";
@@ -198,7 +199,7 @@ export default function Demo(
 
   // Feature handlers
   const handleFeatureClick = (feature: string) => {
-    if (feature === 'megapot' || feature === 'chicks' || feature === 'nft') {
+    if (feature === 'megapot' || feature === 'chicks' || feature === 'nft' || feature === 'larry') {
       setIsFullscreen(true);
     }
     setActiveFeature(feature);
@@ -228,6 +229,13 @@ export default function Demo(
       case 'nft':
         return (
           <NFTModule 
+            isFullscreen={isFullscreen} 
+            onBack={handleBackFromFullscreen}
+          />
+        );
+      case 'larry':
+        return (
+          <LarryModule 
             isFullscreen={isFullscreen} 
             onBack={handleBackFromFullscreen}
           />
@@ -364,7 +372,7 @@ export default function Demo(
               </div>
               
               <div 
-                className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden cursor-pointer transition-transform hover:scale-105 col-span-2"
+                className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden cursor-pointer transition-transform hover:scale-105"
                 onClick={() => handleFeatureClick('nft')}
               >
                 <div className="h-16 sm:h-20 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
@@ -373,6 +381,19 @@ export default function Demo(
                 <div className="p-2">
                   <h3 className="font-bold text-gray-800 dark:text-white text-sm">NFT Collection</h3>
                   <p className="text-[10px] text-gray-500 dark:text-gray-400">Mint BTB NFTs for {NFT_PRICE_BTB} BTB</p>
+                </div>
+              </div>
+              
+              <div 
+                className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden cursor-pointer transition-transform hover:scale-105"
+                onClick={() => handleFeatureClick('larry')}
+              >
+                <div className="h-16 sm:h-20 bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+                  <span className="text-white font-bold text-lg">🐺</span>
+                </div>
+                <div className="p-2">
+                  <h3 className="font-bold text-gray-800 dark:text-white text-sm">Larry Talbot</h3>
+                  <p className="text-[10px] text-gray-500 dark:text-gray-400">Trade, leverage & borrow</p>
                 </div>
               </div>
             </div>
