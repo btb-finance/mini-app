@@ -26,7 +26,7 @@ export function MegaPotModule({ className = "", isFullscreen = false, onBack }: 
   
   const { 
     purchaseTickets, 
-    createSubscription, 
+    createSubscription,
     cancelSubscription,
     isProcessing, 
     txMessage, 
@@ -60,7 +60,7 @@ export function MegaPotModule({ className = "", isFullscreen = false, onBack }: 
       <div className="mb-3 mx-auto text-center" style={{maxWidth: isFullscreen ? '80%' : '100%'}}>
         <p className="mb-1 text-sm">{isFullscreen ? "Enter the weekly prize draw for 1 USDC per ticket" : "Buy tickets to enter the weekly prize draw. 1 USDC per ticket."}</p>
         <div className="inline-block bg-gradient-to-r from-red-600 to-orange-500 text-white text-xs font-bold px-2 py-1 rounded-md">
-          Get up to 15% Cash Back on Purchases!
+          Weekly MegaPot Lottery!
         </div>
       </div>
       
@@ -103,7 +103,7 @@ export function MegaPotModule({ className = "", isFullscreen = false, onBack }: 
                 <li>Each ticket costs 1 USDC</li>
                 <li>Weekly drawings with multiple winners</li>
                 <li>More tickets = higher chances</li>
-                <li>Get up to 15% cashback on purchases</li>
+                <li>Instant ticket purchase</li>
               </ul>
             </div>
             
@@ -144,9 +144,9 @@ export function MegaPotModule({ className = "", isFullscreen = false, onBack }: 
               <h3 className="font-medium mb-1 text-black dark:text-white">Subscription Benefits:</h3>
               <ul className="list-disc pl-4 space-y-0.5 text-gray-800 dark:text-gray-200">
                 <li>Automatic daily entries</li>
-                <li>15% cashback for subscribers</li>
                 <li>Never miss a drawing</li>
-                <li>Cancel anytime for a refund</li>
+                <li>Set it and forget it</li>
+                <li>Cancel anytime</li>
               </ul>
             </div>
             
@@ -195,7 +195,7 @@ export function MegaPotModule({ className = "", isFullscreen = false, onBack }: 
               
               <Button 
                 onClick={cancelSubscription}
-                disabled={isProcessing || !isConnected}
+                disabled={isProcessing || !isConnected || !subscriptionDetails?.isActive}
                 className="bg-red-600 hover:bg-red-700 py-2 text-xs"
               >
                 Cancel Subscription

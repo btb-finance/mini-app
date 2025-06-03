@@ -1,7 +1,14 @@
 import { useState, useCallback, useEffect } from "react";
-import { useAccount, useSendTransaction, usePublicClient } from "wagmi";
+import { useAccount, useSendTransaction, usePublicClient, useWaitForTransactionReceipt } from "wagmi";
 import { LOTTERY_CONTRACT_ADDRESS, USDC_TOKEN_ADDRESS, TICKET_PRICE_USDC } from "./constants";
 import lotteryAbi from "./lotteryabi.json";
+import { encodeFunctionData, parseAbi } from "viem";
+
+// ERC20 ABI for approve and allowance functions
+const erc20Abi = parseAbi([
+  'function approve(address spender, uint256 amount) returns (bool)',
+  'function allowance(address owner, address spender) view returns (uint256)'
+]);
 
 export interface SubscriptionDetails {
   ticketsPerDay: number;
@@ -102,31 +109,67 @@ export function useMegaPot(options?: UseMegaPotOptions) {
     
     try {
       setIsProcessing(true);
-      updateStatus("Approving token transfer...");
       
-      // Calculate amount in wei (1 USDC = 10^6 wei for USDC)
-      const amount = BigInt(Math.floor(parseFloat(ticketAmount) * 10**6));
+      // Calculate amount in USDC decimals (USDC has 6 decimals)
+      const ticketCount = parseFloat(ticketAmount);
+      const totalCostUSDC = ticketCount * TICKET_PRICE_USDC;
+      const amount = BigInt(Math.floor(totalCostUSDC * 10**6));
       
-      // First send approval transaction for ERC20 token
-      await sendTransaction({
-        to: USDC_TOKEN_ADDRESS,
-        // approve(address spender, uint256 amount)
-        data: `0x095ea7b3000000000000000000000000${LOTTERY_CONTRACT_ADDRESS.slice(2)}${amount.toString(16).padStart(64, '0')}`,
-      });
+      // Check current allowance
+      updateStatus("Checking USDC allowance...");
       
-      updateStatus("Waiting for approval confirmation...");
-      // Delay to let the approval transaction propagate
-      await new Promise(resolve => setTimeout(resolve, 15000));
+      if (publicClient) {
+        const currentAllowance = await publicClient.readContract({
+          address: USDC_TOKEN_ADDRESS as `0x${string}`,
+          abi: erc20Abi,
+          functionName: 'allowance',
+          args: [address as `0x${string}`, LOTTERY_CONTRACT_ADDRESS as `0x${string}`]
+        }) as bigint;
+        
+        // Only approve if current allowance is less than required amount
+        if (currentAllowance < amount) {
+          updateStatus("Approving USDC transfer...");
+          
+          // Encode the approve function call
+          const approveData = encodeFunctionData({
+            abi: erc20Abi,
+            functionName: 'approve',
+            args: [LOTTERY_CONTRACT_ADDRESS as `0x${string}`, amount]
+          });
+          
+          // Send approval transaction for USDC token
+          await sendTransaction({
+            to: USDC_TOKEN_ADDRESS as `0x${string}`,
+            data: approveData,
+          });
+          
+          updateStatus("Waiting for approval confirmation...");
+          // Wait for approval transaction to be confirmed
+          await new Promise(resolve => setTimeout(resolve, 10000));
+        }
+      }
       
       updateStatus("Purchasing tickets...");
-      // Then send the purchase transaction
-      await sendTransaction({
-        to: LOTTERY_CONTRACT_ADDRESS,
-        // purchaseTicketsWithCashback(uint256 amount)
-        data: `0x3a2d9e9f${amount.toString(16).padStart(64, '0')}`,
+      
+      // Encode the purchase function call
+      const purchaseData = encodeFunctionData({
+        abi: lotteryAbi,
+        functionName: 'purchaseTicketsWithCashback',
+        args: [amount]
       });
       
-      updateStatus(`Success! Purchased ${ticketAmount} tickets. View transaction on chain explorer.`);
+      // Then send the purchase transaction
+      await sendTransaction({
+        to: LOTTERY_CONTRACT_ADDRESS as `0x${string}`,
+        data: purchaseData,
+      });
+      
+      updateStatus(`Success! Purchased ${ticketAmount} tickets.`);
+      
+      // Clear status after 5 seconds
+      setTimeout(() => {
+        setTxMessage("");
+      }, 5000);
     } catch (error) {
       console.error("Transaction failed:", error);
       updateStatus(`Transaction failed: ${error instanceof Error ? error.message : String(error)}`, true);
@@ -153,38 +196,52 @@ export function useMegaPot(options?: UseMegaPotOptions) {
       
       updateStatus(`Approving ${totalCost} USDC for subscription...`);
       
-      // Calculate amount in wei (1 USDC = 10^6 wei for USDC)
+      // Calculate amount in USDC decimals (USDC has 6 decimals)
       const amountInWei = BigInt(totalCost * 10**6);
       
-      // First send approval transaction for ERC20 token
-      await sendTransaction({
-        to: USDC_TOKEN_ADDRESS,
-        // approve(address spender, uint256 amount)
-        data: `0x095ea7b3000000000000000000000000${LOTTERY_CONTRACT_ADDRESS.slice(2)}${amountInWei.toString(16).padStart(64, '0')}`,
+      // Encode the approve function call
+      const approveData = encodeFunctionData({
+        abi: erc20Abi,
+        functionName: 'approve',
+        args: [LOTTERY_CONTRACT_ADDRESS as `0x${string}`, amountInWei]
+      });
+      
+      // First send approval transaction for USDC token
+      const approveTx = await sendTransaction({
+        to: USDC_TOKEN_ADDRESS as `0x${string}`,
+        data: approveData,
       });
       
       updateStatus("Waiting for approval confirmation...");
-      // Delay to let the approval transaction propagate
-      await new Promise(resolve => setTimeout(resolve, 15000));
+      // Wait for approval transaction to be confirmed
+      await new Promise(resolve => setTimeout(resolve, 10000));
       
       updateStatus("Creating subscription...");
       
-      // Create the subscription
-      // createSubscription(uint256 ticketsPerDay, uint256 daysCount)
-      const ticketsPerDayHex = BigInt(ticketsPerDayVal).toString(16).padStart(64, '0');
-      const daysHex = BigInt(daysVal).toString(16).padStart(64, '0');
+      // Encode the createSubscription function call
+      const subscriptionData = encodeFunctionData({
+        abi: lotteryAbi,
+        functionName: 'createSubscription',
+        args: [BigInt(ticketsPerDayVal), BigInt(daysVal)]
+      });
       
+      // Create the subscription
       await sendTransaction({
-        to: LOTTERY_CONTRACT_ADDRESS,
-        data: `0xb7d3bc65${ticketsPerDayHex}${daysHex}`,
+        to: LOTTERY_CONTRACT_ADDRESS as `0x${string}`,
+        data: subscriptionData,
       });
       
       updateStatus(`Success! Created subscription for ${ticketsPerDay} tickets per day for ${daysCount} days.`);
       
+      // Clear status after 5 seconds
+      setTimeout(() => {
+        setTxMessage("");
+      }, 5000);
+      
       // Refresh subscription details after creation
       setTimeout(() => {
         getSubscriptionDetails();
-      }, 5000); // Wait 5 seconds before refreshing to allow blockchain to update
+      }, 7000); // Wait 7 seconds before refreshing to allow blockchain to update
     } catch (error) {
       console.error("Subscription creation failed:", error);
       updateStatus(`Subscription failed: ${error instanceof Error ? error.message : String(error)}`, true);
@@ -200,32 +257,49 @@ export function useMegaPot(options?: UseMegaPotOptions) {
       return;
     }
     
+    // Check if user has an active subscription
+    if (!subscriptionDetails || !subscriptionDetails.isActive) {
+      updateStatus("No active subscription to cancel", true);
+      return;
+    }
+    
     try {
       setIsProcessing(true);
       updateStatus("Cancelling subscription...");
       
-      await sendTransaction({
-        to: LOTTERY_CONTRACT_ADDRESS,
-        // cancelSubscription()
-        data: "0x78e70cf5",
+      // Encode the cancelSubscription function call
+      const cancelData = encodeFunctionData({
+        abi: lotteryAbi,
+        functionName: 'cancelSubscription',
+        args: []
       });
       
-      updateStatus("Success! Subscription cancelled. Your refund will be processed.");
+      await sendTransaction({
+        to: LOTTERY_CONTRACT_ADDRESS as `0x${string}`,
+        data: cancelData,
+      });
+      
+      updateStatus("Success! Subscription cancelled.");
       
       // Clear current subscription data immediately
       setSubscriptionDetails(null);
       
+      // Clear status after 5 seconds
+      setTimeout(() => {
+        setTxMessage("");
+      }, 5000);
+      
       // Refresh subscription details after delay to allow chain to update
       setTimeout(() => {
         getSubscriptionDetails();
-      }, 5000);
+      }, 7000);
     } catch (error) {
       console.error("Failed to cancel subscription:", error);
       updateStatus(`Failed to cancel subscription: ${error instanceof Error ? error.message : String(error)}`, true);
     } finally {
       setIsProcessing(false);
     }
-  }, [isConnected, address, sendTransaction, updateStatus, getSubscriptionDetails]);
+  }, [isConnected, address, subscriptionDetails, sendTransaction, updateStatus, getSubscriptionDetails]);
 
   return {
     purchaseTickets,
