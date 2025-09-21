@@ -1,10 +1,11 @@
 {
   "name": "BTB Finance",
   "description": "Decentralized Finance Ecosystem",
-  "image": "/btb-share-image.png",
+  "image": "/images/newhomeimg.png",
+  "ogImageUrl": "/images/newhomeimg.png",
   "icons": [
     {
-      "src": "/btb-logo.png",
+      "src": "/images/newhomeimg.png",
       "sizes": "192x192",
       "type": "image/png"
     }
