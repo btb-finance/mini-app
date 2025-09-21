@@ -11,6 +11,8 @@
   ],
   "theme_color": "#3b82f6",
   "background_color": "#f8fafc",
+  "accountAssociation": {},
+  "frame": {},
   "baseBuilder": {
     "allowedAddresses": ["0xC630798FefCa7ceAD555c5E91FBf3bCB52b630a3"]
   }
