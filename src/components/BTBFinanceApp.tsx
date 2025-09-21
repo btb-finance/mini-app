@@ -35,7 +35,7 @@ import { NFT_PRICE_BTB } from "../app/nft/constants";
 import { LarryModule } from "../app/larry";
 
 // BTB Token contract address
-const BTB_TOKEN_ADDRESS = "0xBBF88F780072F5141dE94E0A711bD2ad2c1f83BB";
+const BTB_TOKEN_ADDRESS = "0x888e85C95c84CA41eEf3E4C8C89e8dcE03e41488";
 
 export default function Demo(
   { title }: { title?: string } = { title: "BTB Finance" }
@@ -259,7 +259,7 @@ export default function Demo(
       }}
       className="bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-black min-h-screen"
     >
-      <div className={`${isFullscreen ? 'w-full max-w-md' : 'w-full max-w-[300px]'} mx-auto py-2 px-2`}>
+      <div className={`${isFullscreen ? 'w-full max-w-md' : 'w-full max-w-[400px]'} mx-auto py-4 px-3`}>
         {/* App title - hide when in fullscreen */}
         {!isFullscreen && (
           <div className="text-center mb-3">
@@ -274,64 +274,53 @@ export default function Demo(
 
         {/* Connect wallet button if not connected - hide when in fullscreen */}
         {!isConnected && !isFullscreen && (
-          <div className="mb-4 text-center">
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 mb-3">
-              <div className="mb-3 h-16 sm:h-20 flex items-center justify-center">
-                <img src="/logo.avif" alt="BTB Finance Logo" className="h-16 w-16 object-contain" />
+          <div className="mb-6 text-center">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 mb-4 border border-gray-100 dark:border-gray-700">
+              <div className="mb-4 h-20 sm:h-24 flex items-center justify-center">
+                <img src="/logo.avif" alt="BTB Finance Logo" className="h-20 w-20 object-contain" />
               </div>
-              <p className="mb-3 text-xs text-gray-600 dark:text-gray-300">
+              <h2 className="text-lg font-bold text-gray-800 dark:text-white mb-2">Welcome to BTB Finance</h2>
+              <p className="mb-4 text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                 Connect your wallet to access the BTB Finance ecosystem and explore all features.
               </p>
               <Button
                 onClick={() => connect({ connector: config.connectors[0] })}
-                className="w-full py-2 text-sm bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-xl"
+                className="w-full py-3 text-sm bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-xl shadow-lg"
               >
                 Connect Wallet
               </Button>
             </div>
             
-            <div className="grid grid-cols-3 gap-1 mb-3">
-              <div className="bg-white dark:bg-gray-800 rounded-lg p-2 text-center shadow-md">
-                <div className="text-blue-500 dark:text-blue-400 text-lg mb-0.5">10%</div>
-                <div className="text-[10px] text-gray-500 dark:text-gray-400">Staking APY</div>
-              </div>
-              <div className="bg-white dark:bg-gray-800 rounded-lg p-2 text-center shadow-md">
-                <div className="text-purple-500 dark:text-purple-400 text-lg mb-0.5">5k+</div>
-                <div className="text-[10px] text-gray-500 dark:text-gray-400">Holders</div>
-              </div>
-              <div className="bg-white dark:bg-gray-800 rounded-lg p-2 text-center shadow-md">
-                <div className="text-green-500 dark:text-green-400 text-lg mb-0.5">3</div>
-                <div className="text-[10px] text-gray-500 dark:text-gray-400">Chains</div>
-              </div>
-            </div>
           </div>
         )}
 
         {/* Add BTB Token Balance Display - hide when in fullscreen */}
         {isConnected && !isFullscreen && (
-          <div className="mb-4">
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-3 mb-3">
-              <div className="flex justify-between items-center mb-2">
-                <h2 className="text-lg font-bold text-gray-800 dark:text-white">Wallet</h2>
-                <Button 
+          <div className="mb-6">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-5 mb-4 border border-gray-100 dark:border-gray-700">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold text-gray-800 dark:text-white">Your Wallet</h2>
+                <Button
                   onClick={() => disconnect()}
-                  className="text-xs bg-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white py-1 px-2"
+                  className="text-sm bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300 py-2 px-3 rounded-lg"
                 >
                   Disconnect
                 </Button>
               </div>
-              
-              <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-3 mb-2">
-                <div className="text-xs text-gray-500 dark:text-gray-400 mb-0.5">Your BTB Balance</div>
+
+              <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-xl p-4 mb-3">
+                <div className="text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">Your BTB Balance</div>
                 <div className="flex items-end">
-                  <span className="text-xl font-bold text-gray-800 dark:text-white">{parseFloat(tokenBalance).toFixed(2)}</span>
-                  <span className="ml-1 text-xs text-gray-600 dark:text-gray-300">BTB</span>
+                  <span className="text-3xl font-bold text-gray-800 dark:text-white">{parseFloat(tokenBalance).toFixed(2)}</span>
+                  <span className="ml-2 text-sm font-semibold text-blue-600 dark:text-blue-400">BTB</span>
                 </div>
               </div>
-              
-              <div className="text-xs text-gray-500 dark:text-gray-400 mb-0.5">Connected Address</div>
-              <div className="text-xs font-mono text-gray-700 dark:text-gray-300 truncate">
-                {address ? address.slice(0, 6) + '...' + address.slice(-4) : ''}
+
+              <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3">
+                <div className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Connected Address</div>
+                <div className="text-sm font-mono text-gray-700 dark:text-gray-300 break-all">
+                  {address ? address.slice(0, 8) + '...' + address.slice(-6) : ''}
+                </div>
               </div>
             </div>
           </div>
@@ -339,61 +328,61 @@ export default function Demo(
         
         {/* Feature Buttons - hide when in fullscreen */}
         {!isFullscreen && (
-          <div className="mb-4">
-            <h2 className="text-lg font-bold mb-2 text-gray-800 dark:text-white">Explore BTB</h2>
-            <div className="grid grid-cols-2 gap-2">
-              <div 
-                className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden cursor-pointer transition-transform hover:scale-105"
+          <div className="mb-6">
+            <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">Explore BTB Finance</h2>
+            <div className="grid grid-cols-2 gap-3">
+              <div
+                className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-xl border border-gray-100 dark:border-gray-700"
                 onClick={() => handleFeatureClick('megapot')}
               >
-                <div className="h-16 sm:h-20 bg-gradient-to-r from-red-500 to-orange-500 flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">🎯</span>
-                </div>
-                <div className="p-2">
-                  <h3 className="font-bold text-gray-800 dark:text-white text-sm">Mega Pot</h3>
-                  <div className="flex justify-between items-center">
-                    <p className="text-[10px] text-gray-500 dark:text-gray-400">Win big with BTB</p>
-                    <span className="bg-gradient-to-r from-red-600 to-orange-500 text-white text-[9px] font-bold px-1 py-0.5 rounded">15% CASHBACK</span>
+                <div className="h-20 sm:h-24 bg-gradient-to-r from-red-500 to-orange-500 flex items-center justify-center relative">
+                  <span className="text-white font-bold text-2xl">🎯</span>
+                  <div className="absolute top-2 right-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full">
+                    15% CASHBACK
                   </div>
                 </div>
+                <div className="p-4">
+                  <h3 className="font-bold text-gray-800 dark:text-white text-sm mb-1">Mega Pot</h3>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Win big with BTB</p>
+                </div>
               </div>
               
-              <div 
-                className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden cursor-pointer transition-transform hover:scale-105"
+              <div
+                className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-xl border border-gray-100 dark:border-gray-700"
                 onClick={() => handleFeatureClick('chicks')}
               >
-                <div className="h-16 sm:h-20 bg-gradient-to-r from-green-500 to-teal-500 flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">🐥</span>
+                <div className="h-20 sm:h-24 bg-gradient-to-r from-green-500 to-teal-500 flex items-center justify-center">
+                  <span className="text-white font-bold text-2xl">🐥</span>
                 </div>
-                <div className="p-2">
-                  <h3 className="font-bold text-gray-800 dark:text-white text-sm">Chicks</h3>
-                  <p className="text-[10px] text-gray-500 dark:text-gray-400">Trade & earn with Chicks</p>
+                <div className="p-4">
+                  <h3 className="font-bold text-gray-800 dark:text-white text-sm mb-1">Chicks</h3>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Trade & earn with Chicks</p>
                 </div>
               </div>
               
-              <div 
-                className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden cursor-pointer transition-transform hover:scale-105"
+              <div
+                className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-xl border border-gray-100 dark:border-gray-700"
                 onClick={() => handleFeatureClick('nft')}
               >
-                <div className="h-16 sm:h-20 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">🖼️</span>
+                <div className="h-20 sm:h-24 bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+                  <span className="text-white font-bold text-2xl">🖼️</span>
                 </div>
-                <div className="p-2">
-                  <h3 className="font-bold text-gray-800 dark:text-white text-sm">NFT Collection</h3>
-                  <p className="text-[10px] text-gray-500 dark:text-gray-400">Mint BTB NFTs for {NFT_PRICE_BTB} BTB</p>
+                <div className="p-4">
+                  <h3 className="font-bold text-gray-800 dark:text-white text-sm mb-1">NFT Collection</h3>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Mint BTB NFTs for {NFT_PRICE_BTB} BTB</p>
                 </div>
               </div>
-              
-              <div 
-                className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden cursor-pointer transition-transform hover:scale-105"
+
+              <div
+                className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden cursor-pointer transition-all duration-200 hover:scale-105 hover:shadow-xl border border-gray-100 dark:border-gray-700"
                 onClick={() => handleFeatureClick('larry')}
               >
-                <div className="h-16 sm:h-20 bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">🐺</span>
+                <div className="h-20 sm:h-24 bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">
+                  <span className="text-white font-bold text-2xl">🐺</span>
                 </div>
-                <div className="p-2">
-                  <h3 className="font-bold text-gray-800 dark:text-white text-sm">Larry Talbot</h3>
-                  <p className="text-[10px] text-gray-500 dark:text-gray-400">Trade, leverage & borrow</p>
+                <div className="p-4">
+                  <h3 className="font-bold text-gray-800 dark:text-white text-sm mb-1">Larry Talbot</h3>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Trade, leverage & borrow</p>
                 </div>
               </div>
             </div>
