@@ -1,13 +1,28 @@
 {
+  "accountAssociation": {
+    "header": "",
+    "payload": "",
+    "signature": ""
+  },
+  "baseBuilder": {
+    "allowedAddresses": ["0xC630798FefCa7ceAD555c5E91FBf3bCB52b630a3"]
+  },
   "frame": {
     "version": "1",
     "name": "BTB Finance",
-    "iconUrl": "https://mini.btb.finance/images/btb-logo.png",
     "homeUrl": "https://mini.btb.finance/",
-    "imageUrl": "https://mini.btb.finance/frame.html",
-    "buttonTitle": "🚀 Launch",
+    "iconUrl": "https://mini.btb.finance/images/btb-logo.png",
     "splashImageUrl": "https://mini.btb.finance/images/btb-logo.png",
     "splashBackgroundColor": "#1e3a8a",
-    "category": "finance"
+    "subtitle": "Decentralized Finance Ecosystem",
+    "description": "Complete DeFi platform with staking, liquidity pools, and yield farming opportunities on Base blockchain.",
+    "screenshotUrls": [],
+    "primaryCategory": "finance",
+    "tags": ["defi", "finance", "staking", "base", "yield"],
+    "heroImageUrl": "https://mini.btb.finance/images/btb-logo.png",
+    "tagline": "DeFi Made Simple",
+    "ogTitle": "BTB Finance - DeFi Platform",
+    "ogDescription": "Complete DeFi platform with staking, liquidity pools, and yield farming on Base.",
+    "ogImageUrl": "https://mini.btb.finance/images/btb-logo.png"
   }
 }
