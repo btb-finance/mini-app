@@ -20,6 +20,22 @@ export const metadata: Metadata = {
     description: "Decentralized Finance Ecosystem",
     images: ["/api/og"],
   },
+  other: {
+    "fc:frame": JSON.stringify({
+      version: "next",
+      imageUrl: process.env.NEXT_PUBLIC_URL ? `${process.env.NEXT_PUBLIC_URL}/new-splash.png` : "https://mini.btb.finance/new-splash.png",
+      button: {
+        title: "Launch DeFi",
+        action: {
+          type: "launch_frame",
+          name: "BTB Finance",
+          url: process.env.NEXT_PUBLIC_URL || "https://mini.btb.finance",
+          splashImageUrl: process.env.NEXT_PUBLIC_URL ? `${process.env.NEXT_PUBLIC_URL}/new-splash.png` : "https://mini.btb.finance/new-splash.png",
+          splashBackgroundColor: "#1e3a8a",
+        },
+      },
+    }),
+  },
 };
 
 export default async function RootLayout({
