@@ -31,6 +31,7 @@ export function useMegaPot(options?: UseMegaPotOptions) {
   const { address, isConnected } = useAccount();
   const { sendTransaction, data: txHash, error: txError } = useSendTransaction();
   const publicClient = usePublicClient();
+  const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash: txHash });
 
   // Helper function to update status and optionally trigger callbacks
   const updateStatus = useCallback((message: string, isError = false) => {
@@ -138,38 +139,47 @@ export function useMegaPot(options?: UseMegaPotOptions) {
           });
 
           // Send approval transaction for USDC token
-          await new Promise<void>((resolve, reject) => {
-            sendTransaction(
-              {
-                to: USDC_TOKEN_ADDRESS as `0x${string}`,
-                data: approveData,
+          sendTransaction(
+            {
+              to: USDC_TOKEN_ADDRESS as `0x${string}`,
+              data: approveData,
+            },
+            {
+              onSuccess: () => {
+                updateStatus("Waiting for approval confirmation...");
               },
-              {
-                onSuccess: async () => {
-                  updateStatus("Waiting for approval confirmation...");
-                  // Wait for the transaction to be processed
-                  await new Promise(resolve => setTimeout(resolve, 15000));
-
-                  // Verify the approval was successful by checking allowance again
-                  const newAllowance = await publicClient.readContract({
-                    address: USDC_TOKEN_ADDRESS as `0x${string}`,
-                    abi: erc20Abi,
-                    functionName: 'allowance',
-                    args: [address as `0x${string}`, LOTTERY_CONTRACT_ADDRESS as `0x${string}`]
-                  }) as bigint;
-
-                  if (newAllowance < amount) {
-                    reject(new Error("USDC approval failed. Please try again."));
-                  } else {
-                    resolve();
-                  }
-                },
-                onError: (error) => {
-                  reject(new Error(`Approval transaction failed: ${error.message}`));
-                }
+              onError: (error) => {
+                updateStatus(`Approval transaction failed: ${error.message}`, true);
               }
-            );
+            }
+          );
+
+          // Wait for transaction confirmation
+          await new Promise<void>((resolve, reject) => {
+            const checkConfirmation = () => {
+              if (isSuccess) {
+                updateStatus("Approval confirmed!");
+                resolve();
+              } else if (txError) {
+                reject(new Error(`Approval transaction failed: ${txError.message}`));
+              } else {
+                setTimeout(checkConfirmation, 1000);
+              }
+            };
+            checkConfirmation();
           });
+
+          // Verify the approval was successful by checking allowance again
+          const newAllowance = await publicClient.readContract({
+            address: USDC_TOKEN_ADDRESS as `0x${string}`,
+            abi: erc20Abi,
+            functionName: 'allowance',
+            args: [address as `0x${string}`, LOTTERY_CONTRACT_ADDRESS as `0x${string}`]
+          }) as bigint;
+
+          if (newAllowance < amount) {
+            throw new Error("USDC approval failed. Please try again.");
+          }
         }
       }
 
@@ -183,25 +193,34 @@ export function useMegaPot(options?: UseMegaPotOptions) {
       });
 
       // Send the purchase transaction
-      await new Promise<void>((resolve, reject) => {
-        sendTransaction(
-          {
-            to: LOTTERY_CONTRACT_ADDRESS as `0x${string}`,
-            data: purchaseData,
+      sendTransaction(
+        {
+          to: LOTTERY_CONTRACT_ADDRESS as `0x${string}`,
+          data: purchaseData,
+        },
+        {
+          onSuccess: () => {
+            updateStatus("Waiting for purchase confirmation...");
           },
-          {
-            onSuccess: async () => {
-              updateStatus("Waiting for purchase confirmation...");
-              // Wait for purchase transaction to be confirmed
-              await new Promise(resolve => setTimeout(resolve, 15000));
-              updateStatus(`Success! Purchased ${ticketAmount} tickets.`);
-              resolve();
-            },
-            onError: (error) => {
-              reject(new Error(`Purchase transaction failed: ${error.message}`));
-            }
+          onError: (error) => {
+            updateStatus(`Purchase transaction failed: ${error.message}`, true);
           }
-        );
+        }
+      );
+
+      // Wait for transaction confirmation
+      await new Promise<void>((resolve, reject) => {
+        const checkConfirmation = () => {
+          if (isSuccess) {
+            updateStatus(`Success! Purchased ${ticketAmount} tickets.`);
+            resolve();
+          } else if (txError) {
+            reject(new Error(`Purchase transaction failed: ${txError.message}`));
+          } else {
+            setTimeout(checkConfirmation, 1000);
+          }
+        };
+        checkConfirmation();
       });
 
       // Clear status after 5 seconds
@@ -245,24 +264,34 @@ export function useMegaPot(options?: UseMegaPotOptions) {
       });
       
       // First send approval transaction for USDC token
-      await new Promise<void>((resolve, reject) => {
-        sendTransaction(
-          {
-            to: USDC_TOKEN_ADDRESS as `0x${string}`,
-            data: approveData,
+      sendTransaction(
+        {
+          to: USDC_TOKEN_ADDRESS as `0x${string}`,
+          data: approveData,
+        },
+        {
+          onSuccess: () => {
+            updateStatus("Waiting for approval confirmation...");
           },
-          {
-            onSuccess: async () => {
-              updateStatus("Waiting for approval confirmation...");
-              // Wait for approval transaction to be confirmed
-              await new Promise(resolve => setTimeout(resolve, 15000));
-              resolve();
-            },
-            onError: (error) => {
-              reject(new Error(`Approval transaction failed: ${error.message}`));
-            }
+          onError: (error) => {
+            updateStatus(`Approval transaction failed: ${error.message}`, true);
           }
-        );
+        }
+      );
+
+      // Wait for approval transaction confirmation
+      await new Promise<void>((resolve, reject) => {
+        const checkConfirmation = () => {
+          if (isSuccess) {
+            updateStatus("Approval confirmed!");
+            resolve();
+          } else if (txError) {
+            reject(new Error(`Approval transaction failed: ${txError.message}`));
+          } else {
+            setTimeout(checkConfirmation, 1000);
+          }
+        };
+        checkConfirmation();
       });
 
       updateStatus("Creating subscription...");
@@ -275,24 +304,34 @@ export function useMegaPot(options?: UseMegaPotOptions) {
       });
 
       // Create the subscription
-      await new Promise<void>((resolve, reject) => {
-        sendTransaction(
-          {
-            to: LOTTERY_CONTRACT_ADDRESS as `0x${string}`,
-            data: subscriptionData,
+      sendTransaction(
+        {
+          to: LOTTERY_CONTRACT_ADDRESS as `0x${string}`,
+          data: subscriptionData,
+        },
+        {
+          onSuccess: () => {
+            updateStatus("Waiting for subscription confirmation...");
           },
-          {
-            onSuccess: async () => {
-              updateStatus("Waiting for subscription confirmation...");
-              await new Promise(resolve => setTimeout(resolve, 15000));
-              updateStatus(`Success! Created subscription for ${ticketsPerDay} tickets per day for ${daysCount} days.`);
-              resolve();
-            },
-            onError: (error) => {
-              reject(new Error(`Subscription transaction failed: ${error.message}`));
-            }
+          onError: (error) => {
+            updateStatus(`Subscription transaction failed: ${error.message}`, true);
           }
-        );
+        }
+      );
+
+      // Wait for subscription transaction confirmation
+      await new Promise<void>((resolve, reject) => {
+        const checkConfirmation = () => {
+          if (isSuccess) {
+            updateStatus(`Success! Created subscription for ${ticketsPerDay} tickets per day for ${daysCount} days.`);
+            resolve();
+          } else if (txError) {
+            reject(new Error(`Subscription transaction failed: ${txError.message}`));
+          } else {
+            setTimeout(checkConfirmation, 1000);
+          }
+        };
+        checkConfirmation();
       });
       
       // Clear status after 5 seconds
@@ -336,24 +375,34 @@ export function useMegaPot(options?: UseMegaPotOptions) {
         args: []
       });
       
-      await new Promise<void>((resolve, reject) => {
-        sendTransaction(
-          {
-            to: LOTTERY_CONTRACT_ADDRESS as `0x${string}`,
-            data: cancelData,
+      sendTransaction(
+        {
+          to: LOTTERY_CONTRACT_ADDRESS as `0x${string}`,
+          data: cancelData,
+        },
+        {
+          onSuccess: () => {
+            updateStatus("Waiting for cancellation confirmation...");
           },
-          {
-            onSuccess: async () => {
-              updateStatus("Waiting for cancellation confirmation...");
-              await new Promise(resolve => setTimeout(resolve, 15000));
-              updateStatus("Success! Subscription cancelled.");
-              resolve();
-            },
-            onError: (error) => {
-              reject(new Error(`Cancellation transaction failed: ${error.message}`));
-            }
+          onError: (error) => {
+            updateStatus(`Cancellation transaction failed: ${error.message}`, true);
           }
-        );
+        }
+      );
+
+      // Wait for cancellation transaction confirmation
+      await new Promise<void>((resolve, reject) => {
+        const checkConfirmation = () => {
+          if (isSuccess) {
+            updateStatus("Success! Subscription cancelled.");
+            resolve();
+          } else if (txError) {
+            reject(new Error(`Cancellation transaction failed: ${txError.message}`));
+          } else {
+            setTimeout(checkConfirmation, 1000);
+          }
+        };
+        checkConfirmation();
       });
       
       // Clear current subscription data immediately

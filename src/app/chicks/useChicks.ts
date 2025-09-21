@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
-import { useAccount, useSendTransaction, usePublicClient } from "wagmi";
+import { useAccount, useSendTransaction, usePublicClient, useWaitForTransactionReceipt } from "wagmi";
 import { CHICKS_CONTRACT_ADDRESS, USDC_TOKEN_ADDRESS } from "./constants";
 import chicksAbi from "./chicksabi.json";
 
@@ -24,8 +24,9 @@ export function useChicks(options?: UseChicksOptions) {
   const [chicksPrice, setChicksPrice] = useState<string>("0");
   
   const { address, isConnected } = useAccount();
-  const { sendTransaction } = useSendTransaction();
+  const { sendTransaction, data: txHash, error: txError } = useSendTransaction();
   const publicClient = usePublicClient();
+  const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash: txHash });
 
   // Helper function to update status and optionally trigger callbacks
   const updateStatus = useCallback((message: string, isError = false) => {
@@ -131,25 +132,52 @@ export function useChicks(options?: UseChicksOptions) {
       const amount = BigInt(Math.floor(parseFloat(usdcAmount) * 10**6));
       
       // First send approval transaction for ERC20 token
-      await sendTransaction({
+      sendTransaction({
         to: USDC_TOKEN_ADDRESS,
         // approve(address spender, uint256 amount)
         data: `0x095ea7b3000000000000000000000000${CHICKS_CONTRACT_ADDRESS.slice(2)}${amount.toString(16).padStart(64, '0')}`,
       });
-      
+
       updateStatus("Waiting for approval confirmation...");
-      // Delay to let the approval transaction propagate
-      await new Promise(resolve => setTimeout(resolve, 15000));
-      
+
+      // Wait for approval transaction confirmation
+      await new Promise<void>((resolve, reject) => {
+        const checkConfirmation = () => {
+          if (isSuccess) {
+            updateStatus("Approval confirmed!");
+            resolve();
+          } else if (txError) {
+            reject(new Error(`Approval transaction failed: ${txError.message}`));
+          } else {
+            setTimeout(checkConfirmation, 1000);
+          }
+        };
+        checkConfirmation();
+      });
+
       updateStatus("Buying Chicks tokens...");
+
       // Then send the buy transaction
-      await sendTransaction({
+      sendTransaction({
         to: CHICKS_CONTRACT_ADDRESS,
         // buy(address receiver, uint256 _usdcAmount)
         data: `0xf088d547000000000000000000000000${address.slice(2)}${amount.toString(16).padStart(64, '0')}`,
       });
-      
-      updateStatus(`Success! Bought Chicks tokens for ${usdcAmount} USDC. View transaction on chain explorer.`);
+
+      // Wait for buy transaction confirmation
+      await new Promise<void>((resolve, reject) => {
+        const checkConfirmation = () => {
+          if (isSuccess) {
+            updateStatus(`Success! Bought Chicks tokens for ${usdcAmount} USDC.`);
+            resolve();
+          } else if (txError) {
+            reject(new Error(`Buy transaction failed: ${txError.message}`));
+          } else {
+            setTimeout(checkConfirmation, 1000);
+          }
+        };
+        checkConfirmation();
+      });
     } catch (error) {
       console.error("Transaction failed:", error);
       updateStatus(`Transaction failed: ${error instanceof Error ? error.message : String(error)}`, true);
@@ -173,13 +201,26 @@ export function useChicks(options?: UseChicksOptions) {
       const amount = BigInt(Math.floor(parseFloat(chicksAmount) * 10**18));
       
       // Send the sell transaction
-      await sendTransaction({
+      sendTransaction({
         to: CHICKS_CONTRACT_ADDRESS,
         // sell(uint256 chicks)
         data: `0xe4849b32${amount.toString(16).padStart(64, '0')}`,
       });
-      
-      updateStatus(`Success! Sold ${chicksAmount} Chicks tokens. View transaction on chain explorer.`);
+
+      // Wait for sell transaction confirmation
+      await new Promise<void>((resolve, reject) => {
+        const checkConfirmation = () => {
+          if (isSuccess) {
+            updateStatus(`Success! Sold ${chicksAmount} Chicks tokens.`);
+            resolve();
+          } else if (txError) {
+            reject(new Error(`Sell transaction failed: ${txError.message}`));
+          } else {
+            setTimeout(checkConfirmation, 1000);
+          }
+        };
+        checkConfirmation();
+      });
     } catch (error) {
       console.error("Transaction failed:", error);
       updateStatus(`Transaction failed: ${error instanceof Error ? error.message : String(error)}`, true);
@@ -204,26 +245,53 @@ export function useChicks(options?: UseChicksOptions) {
       const days = BigInt(parseInt(numberOfDays));
       
       // First send approval transaction for ERC20 token
-      await sendTransaction({
+      sendTransaction({
         to: USDC_TOKEN_ADDRESS,
         // approve(address spender, uint256 amount)
         data: `0x095ea7b3000000000000000000000000${CHICKS_CONTRACT_ADDRESS.slice(2)}${amount.toString(16).padStart(64, '0')}`,
       });
-      
+
       updateStatus("Waiting for approval confirmation...");
-      // Delay to let the approval transaction propagate
-      await new Promise(resolve => setTimeout(resolve, 15000));
-      
+
+      // Wait for approval transaction confirmation
+      await new Promise<void>((resolve, reject) => {
+        const checkConfirmation = () => {
+          if (isSuccess) {
+            updateStatus("Approval confirmed!");
+            resolve();
+          } else if (txError) {
+            reject(new Error(`Approval transaction failed: ${txError.message}`));
+          } else {
+            setTimeout(checkConfirmation, 1000);
+          }
+        };
+        checkConfirmation();
+      });
+
       updateStatus("Creating leverage position...");
+
       // Then send the leverage transaction
-      await sendTransaction({
+      sendTransaction({
         to: CHICKS_CONTRACT_ADDRESS,
         // leverage(uint256 usdc, uint256 numberOfDays)
         data: `0x217b2920${amount.toString(16).padStart(64, '0')}${days.toString(16).padStart(64, '0')}`,
       });
-      
-      updateStatus(`Success! Created leverage position with ${usdcAmount} USDC collateral for ${numberOfDays} days.`);
-      
+
+      // Wait for leverage transaction confirmation
+      await new Promise<void>((resolve, reject) => {
+        const checkConfirmation = () => {
+          if (isSuccess) {
+            updateStatus(`Success! Created leverage position with ${usdcAmount} USDC collateral for ${numberOfDays} days.`);
+            resolve();
+          } else if (txError) {
+            reject(new Error(`Leverage transaction failed: ${txError.message}`));
+          } else {
+            setTimeout(checkConfirmation, 1000);
+          }
+        };
+        checkConfirmation();
+      });
+
       // Refresh loan details after creation
       setTimeout(() => {
         getLoanDetails();
@@ -251,26 +319,53 @@ export function useChicks(options?: UseChicksOptions) {
       const amount = BigInt(Math.floor(parseFloat(repayAmount) * 10**6));
       
       // First send approval transaction for ERC20 token
-      await sendTransaction({
+      sendTransaction({
         to: USDC_TOKEN_ADDRESS,
         // approve(address spender, uint256 amount)
         data: `0x095ea7b3000000000000000000000000${CHICKS_CONTRACT_ADDRESS.slice(2)}${amount.toString(16).padStart(64, '0')}`,
       });
-      
+
       updateStatus("Waiting for approval confirmation...");
-      // Delay to let the approval transaction propagate
-      await new Promise(resolve => setTimeout(resolve, 15000));
-      
+
+      // Wait for approval transaction confirmation
+      await new Promise<void>((resolve, reject) => {
+        const checkConfirmation = () => {
+          if (isSuccess) {
+            updateStatus("Approval confirmed!");
+            resolve();
+          } else if (txError) {
+            reject(new Error(`Approval transaction failed: ${txError.message}`));
+          } else {
+            setTimeout(checkConfirmation, 1000);
+          }
+        };
+        checkConfirmation();
+      });
+
       updateStatus("Closing position...");
+
       // Then send the closePosition transaction
-      await sendTransaction({
+      sendTransaction({
         to: CHICKS_CONTRACT_ADDRESS,
         // closePosition(uint256 repayAmount)
         data: `0x11ca9167${amount.toString(16).padStart(64, '0')}`,
       });
-      
-      updateStatus(`Success! Closed position by repaying ${repayAmount} USDC.`);
-      
+
+      // Wait for close position transaction confirmation
+      await new Promise<void>((resolve, reject) => {
+        const checkConfirmation = () => {
+          if (isSuccess) {
+            updateStatus(`Success! Closed position by repaying ${repayAmount} USDC.`);
+            resolve();
+          } else if (txError) {
+            reject(new Error(`Close position transaction failed: ${txError.message}`));
+          } else {
+            setTimeout(checkConfirmation, 1000);
+          }
+        };
+        checkConfirmation();
+      });
+
       // Refresh loan details after closing
       setTimeout(() => {
         getLoanDetails();

@@ -68,14 +68,38 @@ export function ChicksModule({ className = "", isFullscreen = false, onBack }: C
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <h2 className="text-lg font-bold text-center pt-1.5 pb-1 text-black dark:text-white">Chicks Finance</h2>
+          <div className="text-center pt-1.5 pb-1">
+            <h2 className="text-lg font-bold text-black dark:text-white">Chicks Finance</h2>
+            <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">🔄 Transforming to USDb soon</p>
+          </div>
         </div>
       )}
       
       {!isFullscreen && (
-        <h2 className="text-lg font-bold mb-2">Chicks Finance</h2>
+        <div className="text-center mb-2">
+          <h2 className="text-lg font-bold">Chicks Finance</h2>
+          <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">🔄 Transforming to USDb soon</p>
+        </div>
       )}
-      
+
+      {/* Warning Banner */}
+      <div className="mb-3 p-3 bg-yellow-100 dark:bg-yellow-900/30 border border-yellow-300 dark:border-yellow-600 rounded-lg">
+        <div className="flex items-start space-x-2">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-yellow-600 dark:text-yellow-400 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+          </svg>
+          <div className="text-sm">
+            <p className="font-medium text-yellow-800 dark:text-yellow-200 mb-1">⚠️ Important Notice</p>
+            <p className="text-yellow-700 dark:text-yellow-300 mb-1">
+              <strong>Disputing soon</strong> - Don't buy any more. If already funded, kindly withdraw.
+            </p>
+            <p className="text-yellow-700 dark:text-yellow-300">
+              <strong>🚀 Coming Soon:</strong> Chicks will be transformed into <strong>USDb</strong> - a yield-based stable coin as soon as Aave v4 launches!
+            </p>
+          </div>
+        </div>
+      </div>
+
       <div className="flex justify-between bg-[#006400]/10 dark:bg-[#228B22]/10 rounded-lg p-1 mb-3">
         <button 
           className={`py-2.5 flex-1 text-xs rounded-md transition-colors flex flex-col items-center ${activeTab === 'buy' ? 'font-bold bg-white dark:bg-gray-700 shadow-sm text-black dark:text-white' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700/50'}`}
@@ -133,13 +157,13 @@ export function ChicksModule({ className = "", isFullscreen = false, onBack }: C
       
       {activeTab === 'buy' && (
         <>
-          <div className="mb-3 p-2 bg-[#228B22]/5 rounded text-xs">
-            <h3 className="font-medium mb-1 text-black dark:text-white">How it works:</h3>
-            <ul className="list-disc pl-4 space-y-0.5 text-gray-800 dark:text-gray-200">
-              <li>Buy Chicks tokens with USDC</li>
+          <div className="mb-3 p-2 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded text-xs">
+            <h3 className="font-medium mb-1 text-blue-800 dark:text-blue-200">🔄 Upcoming Transformation</h3>
+            <ul className="list-disc pl-4 space-y-0.5 text-blue-700 dark:text-blue-300">
+              <li className="font-medium">🚫 Buying is temporarily disabled</li>
               <li>Current price: {chicksPrice ? `${parseFloat(chicksPrice).toFixed(6)} USDC` : "Loading..."}</li>
-              <li>Hold Chicks to earn passive income from AAVE</li>
-              <li>Use leverage to increase your position</li>
+              <li>If you have existing positions, please consider withdrawing</li>
+              <li><strong>🚀 Coming Soon:</strong> Chicks will transform into <strong>USDb</strong> - a yield-based stable coin with Aave v4!</li>
             </ul>
           </div>
           
@@ -162,12 +186,13 @@ export function ChicksModule({ className = "", isFullscreen = false, onBack }: C
             <p className="text-xs text-gray-800 dark:text-gray-200">Estimated Chicks: {chicksAmount}</p>
           </div>
           
-          <Button 
+          <Button
             onClick={() => buyChicks(usdcAmount)}
             disabled={isProcessing || !isConnected}
-            className="py-2 text-sm w-full bg-[#228B22] hover:bg-[#228B22]/80"
+            className="py-2 text-sm w-full bg-gray-400 hover:bg-gray-500 cursor-not-allowed"
+            title="Buying is temporarily disabled"
           >
-            Buy Chicks
+            🚫 Buy Chicks (Disabled)
           </Button>
         </>
       )}

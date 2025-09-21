@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
-import { useAccount, useSendTransaction, usePublicClient, useReadContract } from "wagmi";
+import { useAccount, useSendTransaction, usePublicClient, useReadContract, useWaitForTransactionReceipt } from "wagmi";
 import { NFT_CONTRACT_ADDRESS, BTB_TOKEN_ADDRESS, NFT_PRICE_BTB } from "./constants";
 import nftAbi from "./nftabi.json";
 import { formatUnits } from "viem";
@@ -24,8 +24,9 @@ export function useNFT(options?: UseNFTOptions) {
   const [isLoadingNFT, setIsLoadingNFT] = useState(false);
   
   const { address, isConnected } = useAccount();
-  const { sendTransaction } = useSendTransaction();
+  const { sendTransaction, data: txHash, error: txError } = useSendTransaction();
   const publicClient = usePublicClient();
+  const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash: txHash });
 
   // Helper function to update status and optionally trigger callbacks
   const updateStatus = useCallback((message: string, isError = false) => {
@@ -130,26 +131,53 @@ export function useNFT(options?: UseNFTOptions) {
       const amount = BigInt(count * NFT_PRICE_BTB * (10 ** 18));
       
       // First send approval transaction for BTB token
-      await sendTransaction({
+      sendTransaction({
         to: BTB_TOKEN_ADDRESS,
         // approve(address spender, uint256 amount)
         data: `0x095ea7b3000000000000000000000000${NFT_CONTRACT_ADDRESS.slice(2)}${amount.toString(16).padStart(64, '0')}`,
       });
-      
+
       updateStatus("Waiting for approval confirmation...");
-      // Delay to let the approval transaction propagate
-      await new Promise(resolve => setTimeout(resolve, 15000));
-      
+
+      // Wait for approval transaction confirmation
+      await new Promise<void>((resolve, reject) => {
+        const checkConfirmation = () => {
+          if (isSuccess) {
+            updateStatus("Approval confirmed!");
+            resolve();
+          } else if (txError) {
+            reject(new Error(`Approval transaction failed: ${txError.message}`));
+          } else {
+            setTimeout(checkConfirmation, 1000);
+          }
+        };
+        checkConfirmation();
+      });
+
       updateStatus("Buying NFTs...");
+
       // Then send the buy transaction
-      await sendTransaction({
+      sendTransaction({
         to: NFT_CONTRACT_ADDRESS,
         // buyNFT(uint256 amount)
         data: `0x2d296bf1${BigInt(count).toString(16).padStart(64, '0')}`,
       });
-      
-      updateStatus(`Success! Purchased ${nftCount} NFT${count > 1 ? 's' : ''}. View transaction on chain explorer.`);
-      
+
+      // Wait for buy transaction confirmation
+      await new Promise<void>((resolve, reject) => {
+        const checkConfirmation = () => {
+          if (isSuccess) {
+            updateStatus(`Success! Purchased ${nftCount} NFT${count > 1 ? 's' : ''}.`);
+            resolve();
+          } else if (txError) {
+            reject(new Error(`Buy transaction failed: ${txError.message}`));
+          } else {
+            setTimeout(checkConfirmation, 1000);
+          }
+        };
+        checkConfirmation();
+      });
+
       // Refresh NFT details after purchase
       setTimeout(() => {
         getNFTDetails();
