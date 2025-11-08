@@ -54,6 +54,15 @@ export default function Demo(
       }
     }
   }, [context?.client.theme]);
+
+  // Check if addMiniApp is supported (for Base compatibility)
+  const [supportsAddMiniApp, setSupportsAddMiniApp] = useState(true);
+  useEffect(() => {
+    if (isSDKLoaded) {
+      setSupportsAddMiniApp(typeof sdk.actions.addMiniApp === 'function');
+    }
+  }, [isSDKLoaded]);
+
   const [isContextOpen, setIsContextOpen] = useState(false);
   const [txHash, setTxHash] = useState<string | null>(null);
   const [activeFeature, setActiveFeature] = useState<string>('home');

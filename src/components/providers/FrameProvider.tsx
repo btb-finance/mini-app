@@ -24,6 +24,12 @@ export function useFrame() {
     try {
       setNotificationDetails(null);
 
+      // Check if addMiniApp is available (for Base app compatibility)
+      if (typeof sdk.actions.addMiniApp !== 'function') {
+        setAddFrameResult('Add to app not supported in this client');
+        return;
+      }
+
       const result = await sdk.actions.addMiniApp();
 
       if (result.notificationDetails) {
@@ -37,10 +43,12 @@ export function useFrame() {
     } catch (error) {
       if (error instanceof AddFrame.RejectedByUser) {
         setAddFrameResult(`Not added: ${error.message}`);
+        return;
       }
 
       if (error instanceof AddFrame.InvalidDomainManifest) {
         setAddFrameResult(`Not added: ${error.message}`);
+        return;
       }
 
       setAddFrameResult(`Error: ${error}`);
