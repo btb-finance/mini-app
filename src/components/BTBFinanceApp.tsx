@@ -33,6 +33,7 @@ import { NFTModule } from "../app/nft";
 import { NFT_PRICE_BTB } from "../app/nft/constants";
 import { LarryModule } from "../app/larry";
 import { BottomNav, NavItem } from "~/components/ui/BottomNav";
+import sdk from "@farcaster/frame-sdk";
 
 // BTB Token contract address
 const BTB_TOKEN_ADDRESS = "0x888e85C95c84CA41eEf3E4C8C89e8dcE03e41488";
@@ -41,6 +42,18 @@ export default function Demo(
   { title }: { title?: string } = { title: "BTB Finance" }
 ) {
   const { isSDKLoaded, context, added, notificationDetails, lastEvent, addFrame, addFrameResult } = useFrame();
+
+  // Apply user's theme preference from Farcaster context
+  useEffect(() => {
+    if (context?.client.theme) {
+      const root = document.documentElement;
+      if (context.client.theme === 'dark') {
+        root.classList.add('dark');
+      } else {
+        root.classList.remove('dark');
+      }
+    }
+  }, [context?.client.theme]);
   const [isContextOpen, setIsContextOpen] = useState(false);
   const [txHash, setTxHash] = useState<string | null>(null);
   const [activeFeature, setActiveFeature] = useState<string>('home');
@@ -206,7 +219,14 @@ export default function Demo(
   ];
 
   // Feature handlers
-  const handleFeatureClick = (feature: string) => {
+  const handleFeatureClick = async (feature: string) => {
+    // Add haptic feedback
+    try {
+      await sdk.actions.haptic('medium');
+    } catch (e) {
+      // Haptic not supported
+    }
+
     if (feature === 'megapot' || feature === 'nft' || feature === 'larry') {
       setIsFullscreen(true);
     }

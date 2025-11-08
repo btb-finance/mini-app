@@ -23,8 +23,8 @@ export function useFrame() {
   const addFrame = useCallback(async () => {
     try {
       setNotificationDetails(null);
-      
-      const result = await sdk.actions.addFrame();
+
+      const result = await sdk.actions.addMiniApp();
 
       if (result.notificationDetails) {
         setNotificationDetails(result.notificationDetails);

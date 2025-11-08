@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import sdk from '@farcaster/frame-sdk';
 
 export interface NavItem {
   id: string;
@@ -23,13 +24,20 @@ export function BottomNav({ items, activeItem, onItemClick }: BottomNavProps) {
     show: false
   });
 
-  const handleClick = (id: string, event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = async (id: string, event: React.MouseEvent<HTMLButtonElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
 
     setRippleEffect({ x, y, show: true });
     setTimeout(() => setRippleEffect({ x: 0, y: 0, show: false }), 600);
+
+    // Add haptic feedback for native-like feel
+    try {
+      await sdk.actions.haptic('light');
+    } catch (e) {
+      // Haptic feedback not supported, silently fail
+    }
 
     onItemClick(id);
   };

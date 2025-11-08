@@ -47,6 +47,11 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        {/* Quick Auth preconnect for better performance */}
+        <link rel="preconnect" href="https://quickauth.farcaster.xyz" />
+        <link rel="dns-prefetch" href="https://quickauth.farcaster.xyz" />
+      </head>
       <body>
         <Providers session={session}>{children}</Providers>
       </body>
