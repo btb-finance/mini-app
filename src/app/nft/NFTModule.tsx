@@ -38,43 +38,20 @@ export function NFTModule({ className = "", isFullscreen = false, onBack }: NFTM
   }, [nftCount]);
 
   return (
-    <div className={`bg-gradient-to-br from-indigo-950 via-purple-950 to-pink-950 ${isFullscreen ? 'min-h-screen' : 'rounded-2xl'} p-4 ${className}`}>
+    <div className={`bg-gray-900 ${isFullscreen ? 'min-h-screen' : 'rounded-xl'} p-4 ${className}`}>
       {isFullscreen && onBack && (
-        <button
-          onClick={onBack}
-          className="mb-4 flex items-center gap-2 text-purple-300 hover:text-white transition-all hover:gap-3 group"
-        >
-          <svg className="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-          <span className="font-semibold">Back</span>
+        <button onClick={onBack} className="mb-3 text-purple-400 hover:text-purple-300 text-sm font-medium">
+          ← Back
         </button>
       )}
 
-      {/* Modern NFT Header */}
-      <div className="mb-6">
-        <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-2xl blur-xl opacity-50 animate-pulse"></div>
-          <div className="relative bg-gradient-to-br from-indigo-500/20 to-pink-500/20 backdrop-blur-xl rounded-2xl p-6 border border-purple-500/30">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-pink-600 flex items-center justify-center text-3xl shadow-2xl shadow-purple-500/50">
-                  💎
-                </div>
-                <div>
-                  <h2 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300">
-                    BTB NFTs
-                  </h2>
-                  <p className="text-purple-200 text-sm font-semibold">Exclusive Digital Collectibles</p>
-                </div>
-              </div>
-              <div className="text-right">
-                <div className="text-xs font-bold text-purple-300">COLLECTION</div>
-                <div className="text-2xl font-black text-white">✨</div>
-              </div>
-            </div>
-          </div>
+      {/* Simple Header */}
+      <div className="mb-4">
+        <div className="flex items-center gap-2 mb-1">
+          <span className="text-2xl">💎</span>
+          <h2 className="text-xl font-bold text-white">BTB NFTs</h2>
         </div>
+        <p className="text-purple-400 text-sm">Mint NFTs for {NFT_PRICE_BTB} BTB</p>
       </div>
       
       {/* Display transaction status */}
