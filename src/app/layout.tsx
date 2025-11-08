@@ -8,6 +8,13 @@ export const metadata: Metadata = {
   title: process.env.NEXT_PUBLIC_FRAME_NAME || "BTB Finance",
   description: process.env.NEXT_PUBLIC_FRAME_DESCRIPTION || "Decentralized Finance Ecosystem",
   metadataBase: new URL(process.env.NEXT_PUBLIC_URL || "https://mini.btb.finance"),
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+    viewportFit: 'cover',
+  },
   openGraph: {
     title: "BTB Finance",
     description: "Decentralized Finance Ecosystem",
@@ -51,8 +58,15 @@ export default async function RootLayout({
         {/* Quick Auth preconnect for better performance */}
         <link rel="preconnect" href="https://quickauth.farcaster.xyz" />
         <link rel="dns-prefetch" href="https://quickauth.farcaster.xyz" />
+
+        {/* Apple mobile web app settings */}
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        {/* Theme color for address bar */}
+        <meta name="theme-color" content="#1e3a8a" />
       </head>
-      <body>
+      <body className="overflow-x-hidden">
         <Providers session={session}>{children}</Providers>
       </body>
     </html>

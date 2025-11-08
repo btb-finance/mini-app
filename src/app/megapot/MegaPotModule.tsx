@@ -37,41 +37,71 @@ export function MegaPotModule({ className = "", isFullscreen = false, onBack }: 
   } = useMegaPot();
 
   return (
-    <div className={`p-4 bg-gradient-to-br from-yellow-50 to-red-50 dark:from-gray-900 dark:to-gray-800 rounded-xl w-full ${isFullscreen ? 'fixed inset-0 z-50 overflow-y-auto rounded-none bg-white dark:bg-gray-900' : 'max-w-[400px] mx-auto'} text-sm ${className} shadow-lg border border-gray-200 dark:border-gray-700`}>
-      {isFullscreen && (
-        <div className="sticky top-0 left-0 right-0 bg-white dark:bg-gray-900 pt-2 pb-1 mb-2 z-10 border-b border-gray-200 dark:border-gray-800">
-          <button 
-            onClick={onBack}
-            className="absolute top-2 left-2 flex items-center justify-center p-2 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-full shadow-sm text-black dark:text-white"
-            aria-label="Back to home"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          <h2 className="text-lg font-bold text-center pt-1.5 pb-1 text-black dark:text-white">Mega Pot</h2>
-        </div>
+    <div className={`bg-gradient-to-br from-amber-950 via-orange-950 to-red-950 ${isFullscreen ? 'min-h-screen' : 'rounded-2xl'} p-4 ${className}`}>
+      {isFullscreen && onBack && (
+        <button
+          onClick={onBack}
+          className="mb-4 flex items-center gap-2 text-amber-300 hover:text-white transition-all hover:gap-3 group"
+        >
+          <svg className="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          <span className="font-semibold">Back</span>
+        </button>
       )}
-      
-      {!isFullscreen && (
-        <div className="text-center mb-4">
-          <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-red-500 to-purple-600 dark:from-yellow-400 dark:via-red-400 dark:to-purple-400">🎯 Mega Pot</h2>
-          <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">Weekly Lottery - Win Big!</p>
+
+      {/* Modern Header with Animated Glow */}
+      <div className="mb-6">
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 rounded-2xl blur-xl opacity-50 animate-pulse"></div>
+          <div className="relative bg-gradient-to-br from-amber-500/20 to-red-500/20 backdrop-blur-xl rounded-2xl p-6 border border-amber-500/30">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500 to-red-600 flex items-center justify-center text-3xl shadow-2xl shadow-amber-500/50 animate-bounce">
+                  🎯
+                </div>
+                <div>
+                  <h2 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-orange-300 to-red-300">
+                    MEGA POT
+                  </h2>
+                  <p className="text-amber-200 text-sm font-semibold">Weekly Grand Prize Lottery</p>
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-xs font-bold text-amber-300">PRIZE POOL</div>
+                <div className="text-2xl font-black text-white">🏆</div>
+              </div>
+            </div>
+          </div>
         </div>
-      )}
-      
-      <div className="mb-4 bg-gradient-to-r from-yellow-100 to-red-100 dark:from-yellow-900/30 dark:to-red-900/30 rounded-xl p-4 border border-yellow-200 dark:border-yellow-700 mx-auto" style={{maxWidth: isFullscreen ? '90%' : '100%'}}>
-        <div className="text-center">
-          <h3 className="font-bold text-gray-800 dark:text-white mb-2 flex items-center justify-center">
-            <span className="text-2xl mr-2">🎰</span>
-            Weekly Mega Pot Lottery
-          </h3>
-          <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
-            {isFullscreen ? "Enter the weekly prize draw for 1 USDC per ticket" : "Buy tickets to enter the weekly prize draw. 1 USDC per ticket."}
-          </p>
-          <div className="inline-flex items-center bg-gradient-to-r from-yellow-500 to-red-500 text-white text-xs font-bold px-3 py-2 rounded-full shadow-lg">
-            <span className="mr-1">🏆</span>
-            Weekly Drawings - Big Prizes!
+      </div>
+
+      {/* Features Grid */}
+      <div className="grid grid-cols-3 gap-3 mb-6">
+        <div className="relative group">
+          <div className="absolute inset-0 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl blur opacity-20 group-hover:opacity-40 transition-opacity"></div>
+          <div className="relative bg-slate-900/80 backdrop-blur-sm rounded-xl p-3 border border-amber-500/30 text-center">
+            <div className="text-2xl mb-1">💰</div>
+            <div className="text-xs font-bold text-amber-300">1 USDC</div>
+            <div className="text-[10px] text-amber-200/60">Per Ticket</div>
+          </div>
+        </div>
+
+        <div className="relative group">
+          <div className="absolute inset-0 bg-gradient-to-br from-orange-500 to-red-600 rounded-xl blur opacity-20 group-hover:opacity-40 transition-opacity"></div>
+          <div className="relative bg-slate-900/80 backdrop-blur-sm rounded-xl p-3 border border-orange-500/30 text-center">
+            <div className="text-2xl mb-1">🎰</div>
+            <div className="text-xs font-bold text-orange-300">Weekly</div>
+            <div className="text-[10px] text-orange-200/60">Drawings</div>
+          </div>
+        </div>
+
+        <div className="relative group">
+          <div className="absolute inset-0 bg-gradient-to-br from-red-500 to-pink-600 rounded-xl blur opacity-20 group-hover:opacity-40 transition-opacity"></div>
+          <div className="relative bg-slate-900/80 backdrop-blur-sm rounded-xl p-3 border border-red-500/30 text-center">
+            <div className="text-2xl mb-1">🏆</div>
+            <div className="text-xs font-bold text-red-300">Big Win</div>
+            <div className="text-[10px] text-red-200/60">Prizes</div>
           </div>
         </div>
       </div>

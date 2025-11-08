@@ -94,53 +94,68 @@ export default function LarryModule({ className = '', isFullscreen = false, onBa
     switch (activeTab) {
       case 'buy':
         return (
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-5 border border-purple-800/30 shadow-lg">
-            <h3 className="font-bold text-white mb-4 flex items-center">
-              <span className="text-xl mr-2">💰</span>
-              Buy LARRY Tokens
-            </h3>
-
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-300 mb-2">
-                ETH Amount to Invest
-              </label>
-              <input
-                type="number"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                className="w-full px-4 py-3 bg-gray-700/50 border border-gray-600 rounded-xl text-white focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all placeholder-gray-400"
-                placeholder="0.0"
-                step="0.001"
-              />
-            </div>
-
-            {amount && parseFloat(amount) > 0 && (
-              <div className="bg-gradient-to-r from-green-800/30 to-emerald-800/30 rounded-xl p-4 mb-4 border border-green-700/50">
-                <p className="text-sm text-green-300 mb-1">You will receive:</p>
-                <p className="text-2xl font-bold text-white">{buyEstimate} LARRY</p>
-                <p className="text-xs text-green-400 mt-2">
-                  Fee: {((10000 - stats.buyFee) / 100).toFixed(2)}%
-                </p>
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl blur opacity-10"></div>
+            <div className="relative bg-slate-900/90 backdrop-blur-xl rounded-2xl p-6 border border-green-500/20">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center shadow-lg shadow-green-500/50">
+                  <span className="text-xl">💰</span>
+                </div>
+                <div>
+                  <h3 className="font-bold text-white text-lg">Buy LARRY</h3>
+                  <p className="text-sm text-green-300">Invest ETH to get LARRY tokens</p>
+                </div>
               </div>
-            )}
 
-            <Button
-              onClick={handleAction}
-              disabled={!amount || parseFloat(amount) <= 0 || isLoading}
-              className="w-full py-4 text-lg font-bold bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isLoading ? (
-                <>
-                  <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full mr-2"></div>
-                  Processing...
-                </>
-              ) : (
-                <>
-                  <span className="mr-2">🚀</span>
-                  Buy {buyEstimate} LARRY
-                </>
+              <div className="mb-6">
+                <label className="block text-sm font-semibold text-gray-300 mb-3">
+                  Amount to Invest
+                </label>
+                <div className="relative">
+                  <input
+                    type="number"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    className="w-full px-5 py-4 bg-slate-800/50 border-2 border-green-500/30 rounded-2xl text-white text-lg font-semibold focus:outline-none focus:border-green-500 focus:ring-4 focus:ring-green-500/20 transition-all placeholder-gray-500"
+                    placeholder="0.0"
+                    step="0.001"
+                  />
+                  <span className="absolute right-5 top-1/2 -translate-y-1/2 text-green-400 font-bold">ETH</span>
+                </div>
+              </div>
+
+              {amount && parseFloat(amount) > 0 && (
+                <div className="relative mb-6 group">
+                  <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl blur opacity-25 group-hover:opacity-40 transition-opacity"></div>
+                  <div className="relative bg-slate-800/80 backdrop-blur-sm rounded-2xl p-5 border border-green-500/30">
+                    <p className="text-sm font-semibold text-green-300 mb-2">You will receive</p>
+                    <p className="text-3xl font-bold text-white mb-3">{buyEstimate} <span className="text-green-400">LARRY</span></p>
+                    <div className="flex items-center justify-between pt-3 border-t border-green-500/20">
+                      <span className="text-xs text-gray-400">Trading Fee</span>
+                      <span className="text-xs font-semibold text-green-400">{((10000 - stats.buyFee) / 100).toFixed(2)}%</span>
+                    </div>
+                  </div>
+                </div>
               )}
-            </Button>
+
+              <Button
+                onClick={handleAction}
+                disabled={!amount || parseFloat(amount) <= 0 || isLoading}
+                className="w-full py-5 text-lg font-bold bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white rounded-2xl shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-[1.02] active:scale-[0.98]"
+              >
+                {isLoading ? (
+                  <div className="flex items-center justify-center gap-3">
+                    <div className="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></div>
+                    <span>Processing...</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center gap-2">
+                    <span>🚀</span>
+                    <span>Buy LARRY Tokens</span>
+                  </div>
+                )}
+              </Button>
+            </div>
           </div>
         );
         
@@ -535,78 +550,131 @@ export default function LarryModule({ className = '', isFullscreen = false, onBa
   };
 
   return (
-    <div className={`bg-gradient-to-br from-purple-900 via-gray-900 to-indigo-900 rounded-xl p-4 ${isFullscreen ? 'min-h-screen' : ''} ${className} shadow-2xl border border-purple-800/50`}>
+    <div className={`bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 ${isFullscreen ? 'min-h-screen' : 'rounded-2xl'} p-4 ${className}`}>
       {isFullscreen && onBack && (
         <button
           onClick={onBack}
-          className="mb-4 text-gray-400 hover:text-white transition-colors"
+          className="mb-4 flex items-center gap-2 text-purple-300 hover:text-white transition-all hover:gap-3 group"
         >
-          ← Back
+          <svg className="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+          </svg>
+          <span className="font-semibold">Back</span>
         </button>
       )}
-      
-      <div className="mb-6 text-center">
-        <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-indigo-400 mb-2">🐺 Larry Talbot</h2>
-        <p className="text-gray-300 text-sm">Advanced DeFi Trading & Borrowing</p>
-        <div className="inline-flex items-center bg-gradient-to-r from-purple-600 to-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg mt-2">
-          <span className="mr-1">⚡</span>
-          Multi-Chain DeFi Protocol
-        </div>
-      </div>
-      
-      {/* Stats Grid */}
-      <div className="grid grid-cols-2 gap-4 mb-6">
-        <div className="bg-gradient-to-br from-purple-800 to-indigo-800 p-4 rounded-xl border border-purple-700/50 shadow-lg">
-          <p className="text-xs text-purple-200 font-medium mb-1">Price (ETH)</p>
-          <p className="text-xl font-bold text-white font-mono">
-            {formatPrice(stats.price)} Ξ
-          </p>
-          {stats.price > 0n && stats.price < parseEther('0.01') && (
-            <p className="text-xs text-purple-300 mt-1">
-              = {(Number(stats.price) / 10**18).toFixed(12).replace(/\.?0+$/, '')} ETH
-            </p>
-          )}
-        </div>
-        <div className="bg-gradient-to-br from-blue-800 to-cyan-800 p-4 rounded-xl border border-blue-700/50 shadow-lg">
-          <p className="text-xs text-blue-200 font-medium mb-1">Your Balance</p>
-          <p className="text-xl font-bold text-white">
-            {formatLarry(stats.userBalance)}
-          </p>
-        </div>
-        <div className="bg-gradient-to-br from-green-800 to-emerald-800 p-4 rounded-xl border border-green-700/50 shadow-lg">
-          <p className="text-xs text-green-200 font-medium mb-1">Total Supply</p>
-          <p className="text-xl font-bold text-white">
-            {formatLarry(stats.totalSupply)}
-          </p>
-        </div>
-        <div className="bg-gradient-to-br from-yellow-800 to-orange-800 p-4 rounded-xl border border-yellow-700/50 shadow-lg">
-          <p className="text-xs text-yellow-200 font-medium mb-1">Backing</p>
-          <p className="text-xl font-bold text-white">
-            {formatEth(stats.backing)} ETH
-          </p>
-        </div>
-      </div>
-      
-      {/* Tab Navigation */}
+
+      {/* Modern Header */}
       <div className="mb-6">
-        <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-2 border border-purple-800/30 shadow-lg">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center text-2xl shadow-lg shadow-purple-500/50">
+              🐺
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold text-white">Larry Talbot</h2>
+              <p className="text-purple-300 text-sm">DeFi Trading Hub</p>
+            </div>
+          </div>
+          <div className="px-3 py-1.5 bg-purple-500/20 border border-purple-500/30 rounded-lg backdrop-blur-sm">
+            <span className="text-xs font-semibold text-purple-300">⚡ Live</span>
+          </div>
+        </div>
+      </div>
+      
+      {/* Modern Stats Grid */}
+      <div className="grid grid-cols-2 gap-3 mb-6">
+        <div className="relative group">
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl blur opacity-25 group-hover:opacity-40 transition-opacity"></div>
+          <div className="relative bg-slate-900/90 backdrop-blur-xl p-4 rounded-2xl border border-purple-500/20">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-6 h-6 rounded-lg bg-purple-500/20 flex items-center justify-center text-xs">💎</div>
+              <p className="text-xs text-purple-300 font-semibold">Price</p>
+            </div>
+            <p className="text-2xl font-bold text-white mb-1">
+              {formatPrice(stats.price)} Ξ
+            </p>
+            {stats.price > 0n && stats.price < parseEther('0.01') && (
+              <p className="text-xs text-purple-400">
+                {(Number(stats.price) / 10**18).toFixed(12).replace(/\.?0+$/, '')} ETH
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div className="relative group">
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-2xl blur opacity-25 group-hover:opacity-40 transition-opacity"></div>
+          <div className="relative bg-slate-900/90 backdrop-blur-xl p-4 rounded-2xl border border-blue-500/20">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-6 h-6 rounded-lg bg-blue-500/20 flex items-center justify-center text-xs">💰</div>
+              <p className="text-xs text-blue-300 font-semibold">Balance</p>
+            </div>
+            <p className="text-2xl font-bold text-white truncate">
+              {formatLarry(stats.userBalance)}
+            </p>
+          </div>
+        </div>
+
+        <div className="relative group">
+          <div className="absolute inset-0 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl blur opacity-25 group-hover:opacity-40 transition-opacity"></div>
+          <div className="relative bg-slate-900/90 backdrop-blur-xl p-4 rounded-2xl border border-green-500/20">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-6 h-6 rounded-lg bg-green-500/20 flex items-center justify-center text-xs">📊</div>
+              <p className="text-xs text-green-300 font-semibold">Supply</p>
+            </div>
+            <p className="text-2xl font-bold text-white truncate">
+              {formatLarry(stats.totalSupply)}
+            </p>
+          </div>
+        </div>
+
+        <div className="relative group">
+          <div className="absolute inset-0 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl blur opacity-25 group-hover:opacity-40 transition-opacity"></div>
+          <div className="relative bg-slate-900/90 backdrop-blur-xl p-4 rounded-2xl border border-amber-500/20">
+            <div className="flex items-center gap-2 mb-2">
+              <div className="w-6 h-6 rounded-lg bg-amber-500/20 flex items-center justify-center text-xs">🔒</div>
+              <p className="text-xs text-amber-300 font-semibold">Backing</p>
+            </div>
+            <p className="text-2xl font-bold text-white">
+              {formatEth(stats.backing)} ETH
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      {/* Modern Tab Navigation */}
+      <div className="mb-6">
+        <div className="bg-slate-900/50 backdrop-blur-xl rounded-2xl p-1.5 border border-purple-500/20">
           <div className="grid grid-cols-5 gap-1">
-            {LEVERAGE_TABS.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`py-3 px-2 text-xs rounded-lg transition-all duration-200 flex flex-col items-center font-medium ${
-                  activeTab === tab.id
-                    ? 'bg-gradient-to-br from-purple-600 to-indigo-600 text-white shadow-lg'
-                    : 'text-gray-300 hover:text-white hover:bg-gray-700/50'
-                }`}
-              >
-                <span className="text-lg mb-1">
-                  {tab.id === 'buy' ? '💰' : tab.id === 'sell' ? '📈' : tab.id === 'leverage' ? '⚡' : tab.id === 'borrow' ? '🔄' : '📊'}
-                </span>
-                <span>{tab.label}</span>
-              </button>
-            ))}
+            {LEVERAGE_TABS.map((tab) => {
+              const isActive = activeTab === tab.id;
+              const icons = {
+                buy: '💰',
+                sell: '📈',
+                leverage: '⚡',
+                borrow: '🔄',
+                positions: '📊'
+              };
+
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`relative py-3 px-2 rounded-xl transition-all duration-300 flex flex-col items-center font-semibold text-xs ${
+                    isActive
+                      ? 'text-white scale-105'
+                      : 'text-gray-400 hover:text-white hover:scale-105'
+                  }`}
+                >
+                  {isActive && (
+                    <div className="absolute inset-0 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl shadow-lg shadow-purple-500/50"></div>
+                  )}
+                  <span className={`relative text-xl mb-1 transition-transform ${isActive ? 'scale-110' : ''}`}>
+                    {icons[tab.id as keyof typeof icons]}
+                  </span>
+                  <span className="relative">{tab.label}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>

@@ -57,69 +57,73 @@ export function useFrame() {
 
   useEffect(() => {
     const load = async () => {
-      const context = await sdk.context;
-      setContext(context);
-      setIsSDKLoaded(true);
-
-      // Set up event listeners
-      sdk.on("frameAdded", ({ notificationDetails }) => {
-        console.log("Frame added", notificationDetails);
-        setAdded(true);
-        setNotificationDetails(notificationDetails ?? null);
-        setLastEvent("Frame added");
-      });
-
-      sdk.on("frameAddRejected", ({ reason }) => {
-        console.log("Frame add rejected", reason);
-        setAdded(false);
-        setLastEvent(`Frame add rejected: ${reason}`);
-      });
-
-      sdk.on("frameRemoved", () => {
-        console.log("Frame removed");
-        setAdded(false);
-        setLastEvent("Frame removed");
-      });
-
-      sdk.on("notificationsEnabled", ({ notificationDetails }) => {
-        console.log("Notifications enabled", notificationDetails);
-        setNotificationDetails(notificationDetails ?? null);
-        setLastEvent("Notifications enabled");
-      });
-
-      sdk.on("notificationsDisabled", () => {
-        console.log("Notifications disabled");
-        setNotificationDetails(null);
-        setLastEvent("Notifications disabled");
-      });
-
-      sdk.on("primaryButtonClicked", () => {
-        console.log("Primary button clicked");
-        setLastEvent("Primary button clicked");
-      });
-
-      // Call ready action with proper options
-      console.log("Calling ready");
       try {
-        await sdk.actions.ready({
-          // Disable native gestures if your app has custom swipe interactions
-          // disableNativeGestures: false
-        });
-        console.log("Ready action completed successfully");
-      } catch (error) {
-        console.error("Error calling ready action:", error);
-      }
+        console.log("Starting SDK initialization...");
 
-      // Set up MIPD Store
-      const store = createStore();
-      store.subscribe((providerDetails) => {
-        console.log("PROVIDER DETAILS", providerDetails);
-      });
+        // Get context first
+        const context = await sdk.context;
+        setContext(context);
+        console.log("Context loaded:", context);
+
+        // Set up event listeners
+        sdk.on("frameAdded", ({ notificationDetails }) => {
+          console.log("Frame added", notificationDetails);
+          setAdded(true);
+          setNotificationDetails(notificationDetails ?? null);
+          setLastEvent("Frame added");
+        });
+
+        sdk.on("frameAddRejected", ({ reason }) => {
+          console.log("Frame add rejected", reason);
+          setAdded(false);
+          setLastEvent(`Frame add rejected: ${reason}`);
+        });
+
+        sdk.on("frameRemoved", () => {
+          console.log("Frame removed");
+          setAdded(false);
+          setLastEvent("Frame removed");
+        });
+
+        sdk.on("notificationsEnabled", ({ notificationDetails }) => {
+          console.log("Notifications enabled", notificationDetails);
+          setNotificationDetails(notificationDetails ?? null);
+          setLastEvent("Notifications enabled");
+        });
+
+        sdk.on("notificationsDisabled", () => {
+          console.log("Notifications disabled");
+          setNotificationDetails(null);
+          setLastEvent("Notifications disabled");
+        });
+
+        sdk.on("primaryButtonClicked", () => {
+          console.log("Primary button clicked");
+          setLastEvent("Primary button clicked");
+        });
+
+        // Call ready action BEFORE setting SDK as loaded
+        console.log("Calling sdk.actions.ready()...");
+        await sdk.actions.ready({});
+        console.log("✓ Ready action completed successfully - splash screen should be dismissed");
+
+        // Set up MIPD Store
+        const store = createStore();
+        store.subscribe((providerDetails) => {
+          console.log("PROVIDER DETAILS", providerDetails);
+        });
+
+        // Now mark as loaded
+        setIsSDKLoaded(true);
+        console.log("✓ SDK fully initialized");
+      } catch (error) {
+        console.error("Error initializing SDK:", error);
+        // Still mark as loaded to prevent blocking the UI
+        setIsSDKLoaded(true);
+      }
     };
 
     if (sdk && !isSDKLoaded) {
-      console.log("Calling load");
-      setIsSDKLoaded(true);
       load();
       return () => {
         sdk.removeAllListeners();
