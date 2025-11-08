@@ -56,7 +56,9 @@ export function NFTModule({ className = "", isFullscreen = false, onBack }: NFTM
       
       {!isFullscreen && (
         <div className="text-center mb-4">
-          <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">BTB NFTs</h2>
+          <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400 flex items-center justify-center gap-2">
+            <span>💎</span> BTB NFTs
+          </h2>
           <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">Exclusive Digital Collectibles</p>
         </div>
       )}
@@ -75,7 +77,7 @@ export function NFTModule({ className = "", isFullscreen = false, onBack }: NFTM
 
       <div className="mb-4 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 mx-auto" style={{maxWidth: isFullscreen ? '90%' : '100%'}}>
         <h3 className="font-bold mb-2 text-gray-800 dark:text-white flex items-center">
-          <span className="text-2xl mr-2">🖼️</span>
+          <span className="text-2xl mr-2">💎</span>
           Exclusive BTB NFTs
         </h3>
         <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
@@ -142,48 +144,7 @@ export function NFTModule({ className = "", isFullscreen = false, onBack }: NFTM
           Refresh Stats
         </button>
       </div>
-      
-      {/* NFT Preview Cards */}
-      <div className="mb-6 mx-auto" style={{maxWidth: isFullscreen ? '90%' : '100%'}}>
-        <h3 className="font-bold mb-3 text-gray-800 dark:text-white flex items-center">
-          <span className="text-xl mr-2">🎨</span>
-          Available NFTs
-        </h3>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-xl transition-shadow duration-200">
-            <div className="relative">
-              <div className="bg-gradient-to-br from-blue-500 via-purple-600 to-blue-700 h-32 w-full rounded-t-xl flex items-center justify-center relative overflow-hidden">
-                <span className="text-white font-bold text-2xl relative z-10">BTB</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-600/20 animate-pulse"></div>
-              </div>
-              <div className="absolute top-2 right-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-bold px-2 py-1 rounded-full">
-                Genesis
-              </div>
-            </div>
-            <div className="p-4 text-center">
-              <p className="font-bold text-sm text-gray-800 dark:text-white mb-1">BTB Genesis</p>
-              <p className="text-sm font-semibold text-blue-600 dark:text-blue-400">{NFT_PRICE_BTB} BTB</p>
-            </div>
-          </div>
 
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-xl transition-shadow duration-200">
-            <div className="relative">
-              <div className="bg-gradient-to-br from-green-500 via-yellow-500 to-orange-500 h-32 w-full rounded-t-xl flex items-center justify-center relative overflow-hidden">
-                <span className="text-white font-bold text-2xl relative z-10">BTB</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-yellow-500/20 animate-pulse"></div>
-              </div>
-              <div className="absolute top-2 right-2 bg-gradient-to-r from-green-600 to-yellow-600 text-white text-xs font-bold px-2 py-1 rounded-full">
-                Founder
-              </div>
-            </div>
-            <div className="p-4 text-center">
-              <p className="font-bold text-sm text-gray-800 dark:text-white mb-1">BTB Founder</p>
-              <p className="text-sm font-semibold text-green-600 dark:text-green-400">{NFT_PRICE_BTB} BTB</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      
       {/* Mint Form */}
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700 p-5 mb-4 mx-auto" style={{maxWidth: isFullscreen ? '90%' : '100%'}}>
         <h3 className="font-bold mb-4 text-gray-800 dark:text-white flex items-center">

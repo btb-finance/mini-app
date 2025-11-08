@@ -1,11 +1,10 @@
 [build]
-  command = "pnpm netlify:build"
+  command = "bun run netlify:build"
   publish = ".next"
 
 [build.environment]
   NODE_VERSION = "20"
-  NPM_FLAGS = "--version"
-  PNPM_FLAGS = "--no-frozen-lockfile"
+  BUN_VERSION = "1.1.38"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"

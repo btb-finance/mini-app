@@ -2,7 +2,7 @@
 export const NFT_CONTRACT_ADDRESS = "0x000081733751860A8E5BA00FdCF7000b53E90dDD";
 
 // BTB Token contract address (for NFT purchases)
-export const BTB_TOKEN_ADDRESS = "0xBBF88F780072F5141dE94E0A711bD2ad2c1f83BB";
+export const BTB_TOKEN_ADDRESS = "0x888e85C95c84CA41eEf3E4C8C89e8dcE03e41488";
 
 // Default values
 export const NFT_PRICE_BTB = 1000;
