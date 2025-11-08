@@ -34,7 +34,7 @@ export function BottomNav({ items, activeItem, onItemClick }: BottomNavProps) {
 
     // Add haptic feedback for native-like feel
     try {
-      await sdk.actions.haptic('light');
+      await (sdk.actions as any).haptic('light');
     } catch (e) {
       // Haptic feedback not supported, silently fail
     }

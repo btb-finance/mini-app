@@ -33,7 +33,7 @@ import { NFTModule } from "../app/nft";
 import { NFT_PRICE_BTB } from "../app/nft/constants";
 import { LarryModule } from "../app/larry";
 import { BottomNav, NavItem } from "~/components/ui/BottomNav";
-import sdk from "@farcaster/frame-sdk";
+import frameSDK from "@farcaster/frame-sdk";
 
 // BTB Token contract address
 const BTB_TOKEN_ADDRESS = "0x888e85C95c84CA41eEf3E4C8C89e8dcE03e41488";
@@ -43,23 +43,11 @@ export default function Demo(
 ) {
   const { isSDKLoaded, context, added, notificationDetails, lastEvent, addFrame, addFrameResult } = useFrame();
 
-  // Apply user's theme preference from Farcaster context
-  useEffect(() => {
-    if (context?.client.theme) {
-      const root = document.documentElement;
-      if (context.client.theme === 'dark') {
-        root.classList.add('dark');
-      } else {
-        root.classList.remove('dark');
-      }
-    }
-  }, [context?.client.theme]);
-
   // Check if addMiniApp is supported (for Base compatibility)
   const [supportsAddMiniApp, setSupportsAddMiniApp] = useState(true);
   useEffect(() => {
     if (isSDKLoaded) {
-      setSupportsAddMiniApp(typeof sdk.actions.addMiniApp === 'function');
+      setSupportsAddMiniApp(typeof (frameSDK.actions as any).addMiniApp === 'function');
     }
   }, [isSDKLoaded]);
 
@@ -231,7 +219,7 @@ export default function Demo(
   const handleFeatureClick = async (feature: string) => {
     // Add haptic feedback
     try {
-      await sdk.actions.haptic('medium');
+      await (frameSDK.actions as any).haptic('medium');
     } catch (e) {
       // Haptic not supported
     }

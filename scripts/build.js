@@ -525,8 +525,8 @@ async function main() {
       // In CI/CD environments, we should use npx for better compatibility
       console.log('Running Next.js build with npx for CI/CD environment...');
       try {
-        // Use --no-lint flag to bypass ESLint errors in CI/CD
-        execSync('npx next build --no-lint', { cwd: projectRoot, stdio: 'inherit' });
+        // Build without lint flag (Next.js 16 doesn't support --no-lint)
+        execSync('npx next build', { cwd: projectRoot, stdio: 'inherit' });
       } catch (error) {
         // In local testing, we might not have Next.js installed
         if (error.message.includes('command not found')) {

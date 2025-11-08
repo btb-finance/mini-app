@@ -25,12 +25,12 @@ export function useFrame() {
       setNotificationDetails(null);
 
       // Check if addMiniApp is available (for Base app compatibility)
-      if (typeof sdk.actions.addMiniApp !== 'function') {
+      if (typeof (sdk.actions as any).addMiniApp !== 'function') {
         setAddFrameResult('Add to app not supported in this client');
         return;
       }
 
-      const result = await sdk.actions.addMiniApp();
+      const result = await (sdk.actions as any).addMiniApp();
 
       if (result.notificationDetails) {
         setNotificationDetails(result.notificationDetails);
