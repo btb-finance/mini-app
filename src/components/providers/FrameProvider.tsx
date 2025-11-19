@@ -8,6 +8,11 @@ import React from "react";
 interface FrameContextType {
   isSDKLoaded: boolean;
   context: Context.FrameContext | undefined;
+  added: boolean;
+  notificationDetails: FrameNotificationDetails | null;
+  lastEvent: string;
+  addFrame: () => Promise<void>;
+  addFrameResult: string;
 }
 
 const FrameContext = React.createContext<FrameContextType | undefined>(undefined);
@@ -64,6 +69,11 @@ export function useFrame() {
         const context = await sdk.context;
         setContext(context);
         console.log("Context loaded:", context);
+
+        // Check if already added
+        if (context?.client?.added) {
+          setAdded(true);
+        }
 
         // Set up event listeners
         sdk.on("frameAdded", ({ notificationDetails }) => {
@@ -135,15 +145,23 @@ export function useFrame() {
 }
 
 export function FrameProvider({ children }: { children: React.ReactNode }) {
-  const { isSDKLoaded, context } = useFrame();
+  const frameState = useFrame();
 
-  if (!isSDKLoaded) {
+  if (!frameState.isSDKLoaded) {
     return <div>Loading...</div>;
   }
 
   return (
-    <FrameContext.Provider value={{ isSDKLoaded, context }}>
+    <FrameContext.Provider value={frameState}>
       {children}
     </FrameContext.Provider>
   );
+}
+
+export function useFrameContext() {
+  const context = React.useContext(FrameContext);
+  if (context === undefined) {
+    throw new Error("useFrameContext must be used within a FrameProvider");
+  }
+  return context;
 } 

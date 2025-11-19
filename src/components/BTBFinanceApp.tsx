@@ -26,7 +26,7 @@ import { base, degen, mainnet, optimism, unichain } from "wagmi/chains";
 import { BaseError, UserRejectedRequestError, formatUnits } from "viem";
 import { useSession } from "next-auth/react";
 import { Label } from "~/components/ui/label";
-import { useFrame } from "~/components/providers/FrameProvider";
+import { useFrameContext } from "~/components/providers/FrameProvider";
 import tokenAbi from "../app/token/tokenabi.json";
 import { MegaPotModule } from "../app/megapot";
 import { NFTModule } from "../app/nft";
@@ -43,7 +43,7 @@ const BTB_TOKEN_ADDRESS = "0x888e85C95c84CA41eEf3E4C8C89e8dcE03e41488";
 export default function Demo(
   { title }: { title?: string } = { title: "BTB Finance" }
 ) {
-  const { isSDKLoaded, context, added, notificationDetails, lastEvent, addFrame, addFrameResult } = useFrame();
+  const { isSDKLoaded, context, added, notificationDetails, lastEvent, addFrame, addFrameResult } = useFrameContext();
 
   // Check if addMiniApp is supported (for Base compatibility)
   const [supportsAddMiniApp, setSupportsAddMiniApp] = useState(true);
@@ -297,9 +297,31 @@ export default function Demo(
               Your Gateway to Decentralized Finance
             </p>
           </div>
-          {/* Animated background gradient */}
           <div className="absolute inset-0 bg-gradient-to-br from-blue-400/20 via-purple-400/20 to-pink-400/20 animate-pulse" />
         </div>
+
+        {/* Add to Farcaster Button - Only show if not added */}
+        {!added && (
+          <div className="bg-gray-900/5 border border-gray-200 dark:bg-white/5 dark:border-white/10 rounded-xl p-4 mb-4 backdrop-blur-sm">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="font-bold text-gray-900 dark:text-white">Enable Notifications</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Get updates on your earnings</p>
+              </div>
+              <Button
+                onClick={addFrame}
+                className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+              >
+                Add to Farcaster
+              </Button>
+            </div>
+            {addFrameResult && (
+              <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                {addFrameResult}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Quick Stats */}
         {isConnected && (
