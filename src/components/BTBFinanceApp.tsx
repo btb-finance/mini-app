@@ -290,7 +290,7 @@ export default function Demo(
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600 p-6 text-white shadow-2xl">
           <div className="relative z-10">
             <div className="mb-4 flex items-center justify-center">
-              <img src="/logo.avif" alt="BTB Finance" className="h-20 w-20 object-contain drop-shadow-2xl" />
+              <img src="/images/btb-banner.png" alt="BTB Finance" className="w-full h-32 object-cover rounded-xl shadow-lg" />
             </div>
             <h2 className="text-2xl font-bold text-center mb-2">Welcome to BTB Finance</h2>
             <p className="text-center text-sm text-blue-100 opacity-90">

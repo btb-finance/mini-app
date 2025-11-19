@@ -5,12 +5,12 @@ const appUrl = process.env.NEXT_PUBLIC_URL;
 
 // frame preview metadata
 const appName = process.env.NEXT_PUBLIC_FRAME_NAME;
-const splashImageUrl = `${appUrl}/images/newhomeimg.png`;
-const iconUrl = `${appUrl}/images/newhomeimg.png`;
+const splashImageUrl = `${appUrl}/images/btb-icon.png`;
+const iconUrl = `${appUrl}/images/btb-icon.png`;
 
 const framePreviewMetadata = {
   version: "next",
-  imageUrl: `${appUrl}/images/newhomeimg.png`,
+  imageUrl: `${appUrl}/images/btb-banner.png`,
   button: {
     title: process.env.NEXT_PUBLIC_FRAME_BUTTON_TEXT,
     action: {

@@ -5,25 +5,33 @@
     "signature": "MHgwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwNDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAyMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwYzAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMTIwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAxNzAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDFlY2EzZjk3YjM0NTNmYzllNTQxZjNlZjZiM2NlYzE5ZTA2ZTc4NWRkMmY3YTk1ZWI4YjllMmYxN2Q3MmJjMGU3NDk5MjI2MDQwOWViOGI4NWM2YTYwMTI0OTRmYjY4MGM4YzQ2MGRiMzJjNWQ2MTE4ZWJhYTM4NTc4MGJjN2YxOTAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMjVmMTk4MDg2YjJkYjE3MjU2NzMxYmM0NTY2NzNiOTZiY2VmMjNmNTFkMWZiYWNkZDdjNDM3OWVmNjU0NjU1NzJmMWQwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwOGE3YjIyNzQ3OTcwNjUyMjNhMjI3NzY1NjI2MTc1NzQ2ODZlMmU2NzY1NzQyMjJjMjI2MzY4NjE2YzZjNjU2ZTY3NjUyMjNhMjI3MjJkNjE2NDc0NjczMDY0NGE1OTUwNjM2YzU3MzYyZDUzNTQ2MjMwMmQ2ZTM2MzA2NzM5NDU1NTRhMzc3MDY5NTQ2NDMzNGM3NjRmNzI2YjcyMzY1OTIyMmMyMjZmNzI2OTY3Njk2ZTIyM2EyMjY4NzQ3NDcwNzMzYTJmMmY2YjY1Nzk3MzJlNjM2ZjY5NmU2MjYxNzM2NTJlNjM2ZjZkMjIyYzIyNjM3MjZmNzM3MzRmNzI2OTY3Njk2ZTIyM2E2NjYxNmM3MzY1N2QwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMA"
   },
   "baseBuilder": {
-    "allowedAddresses": ["0xC630798FefCa7ceAD555c5E91FBf3bCB52b630a3"]
+    "allowedAddresses": [
+      "0xC630798FefCa7ceAD555c5E91FBf3bCB52b630a3"
+    ]
   },
   "frame": {
     "version": "1",
     "name": "BTB Finance",
     "homeUrl": "https://mini.btb.finance/",
-    "iconUrl": "https://mini.btb.finance/new-splash.png",
-    "splashImageUrl": "https://mini.btb.finance/new-splash.png",
+    "iconUrl": "https://mini.btb.finance/images/btb-icon.png",
+    "splashImageUrl": "https://mini.btb.finance/images/btb-icon.png",
     "splashBackgroundColor": "#1e3a8a",
     "subtitle": "Decentralized Finance Platform",
     "description": "Complete DeFi platform with staking, liquidity pools, and yield farming opportunities on Base blockchain.",
     "screenshotUrls": [],
     "primaryCategory": "finance",
-    "tags": ["defi", "finance", "staking", "base", "yield"],
-    "heroImageUrl": "https://mini.btb.finance/new-splash.png",
+    "tags": [
+      "defi",
+      "finance",
+      "staking",
+      "base",
+      "yield"
+    ],
+    "heroImageUrl": "https://mini.btb.finance/images/btb-banner.png",
     "tagline": "DeFi Made Simple",
     "ogTitle": "BTB Finance",
     "ogDescription": "Complete DeFi platform with staking, liquidity pools, and yield farming on Base.",
-    "ogImageUrl": "https://mini.btb.finance/new-splash.png",
+    "ogImageUrl": "https://mini.btb.finance/images/btb-banner.png",
     "buttonTitle": "Launch DeFi",
     "noindex": false
   }

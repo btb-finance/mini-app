@@ -30,14 +30,14 @@ export const metadata: Metadata = {
   other: {
     "fc:frame": JSON.stringify({
       version: "next",
-      imageUrl: process.env.NEXT_PUBLIC_URL ? `${process.env.NEXT_PUBLIC_URL}/images/newhomeimg.png` : "https://mini.btb.finance/images/newhomeimg.png",
+      imageUrl: process.env.NEXT_PUBLIC_URL ? `${process.env.NEXT_PUBLIC_URL}/images/btb-banner.png` : "https://mini.btb.finance/images/btb-banner.png",
       button: {
         title: "Launch BTB Finance",
         action: {
           type: "launch_frame",
           name: "BTB Finance",
           url: process.env.NEXT_PUBLIC_URL || "https://mini.btb.finance",
-          splashImageUrl: process.env.NEXT_PUBLIC_URL ? `${process.env.NEXT_PUBLIC_URL}/images/newhomeimg.png` : "https://mini.btb.finance/images/newhomeimg.png",
+          splashImageUrl: process.env.NEXT_PUBLIC_URL ? `${process.env.NEXT_PUBLIC_URL}/images/btb-icon.png` : "https://mini.btb.finance/images/btb-icon.png",
           splashBackgroundColor: "#1e3a8a",
         },
       },
@@ -49,7 +49,7 @@ export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {  
+}>) {
   const session = await getSession()
 
   return (
