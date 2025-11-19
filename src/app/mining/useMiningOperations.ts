@@ -129,40 +129,21 @@ export function useMiningOperations() {
     }, [isClaimPending, isClaimConfirming, isClaimSuccess, claimError, refetchStats]);
 
     // Parse Round Data
-    // struct Round { id, startTime, endTime, deployed[25], minerCount[25], totalDeployed, ... }
-
-    const roundDataTyped = roundData as [
-        bigint, // id
-        bigint, // startTime
-        bigint, // endTime
-        bigint[], // deployed
-        bigint[], // minerCount
-        bigint, // totalDeployed
-        string, // entropyHash
-        bigint, // totalWinnings
-        bigint, // btbReward
-        bigint, // totalMotherlodeReward
-        number, // winningSquare
-        number, // motherlodeTiersHit
-        boolean, // finalized
-        boolean, // isCheckpointable
-        boolean, // isJackpotRound
-        boolean, // timerStarted
-        boolean  // finalizationRequested
-    ] | undefined;
+    // viem returns structs as objects when components are named
+    const roundDataTyped = roundData as any;
 
     const roundInfo = roundDataTyped ? {
-        id: roundDataTyped[0],
-        startTime: roundDataTyped[1],
-        endTime: roundDataTyped[2],
-        deployed: roundDataTyped[3],
-        minerCount: roundDataTyped[4],
-        totalDeployed: roundDataTyped[5],
-        totalWinnings: roundDataTyped[7],
-        btbReward: roundDataTyped[8],
-        winningSquare: roundDataTyped[10],
-        finalized: roundDataTyped[12],
-        timerStarted: roundDataTyped[15],
+        id: roundDataTyped.id,
+        startTime: roundDataTyped.startTime,
+        endTime: roundDataTyped.endTime,
+        deployed: roundDataTyped.deployed,
+        minerCount: roundDataTyped.minerCount,
+        totalDeployed: roundDataTyped.totalDeployed,
+        totalWinnings: roundDataTyped.totalWinnings,
+        btbReward: roundDataTyped.btbReward,
+        winningSquare: roundDataTyped.winningSquare,
+        finalized: roundDataTyped.finalized,
+        timerStarted: roundDataTyped.timerStarted,
     } : null;
 
     const minerStatsTyped = minerStats as [bigint, bigint, bigint, bigint] | undefined;
