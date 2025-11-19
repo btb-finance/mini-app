@@ -212,8 +212,8 @@ export default function Demo(
   // Navigation items for bottom menu
   const navItems: NavItem[] = [
     { id: 'home', label: 'Home', icon: '🏠', color: '#3B82F6' },
+    { id: 'mining', label: 'Mining', icon: '⛏️', badge: 'HOT', color: '#F59E0B' },
     { id: 'megapot', label: 'Mega Pot', icon: '🎯', badge: '15%', color: '#EF4444' },
-    { id: 'mining', label: 'Mining', icon: '⛏️', color: '#F59E0B' },
     { id: 'token', label: 'Exchange', icon: '💱', color: '#10B981' },
     { id: 'nft', label: 'NFTs', icon: '💎', color: '#8B5CF6' },
     { id: 'larry', label: 'Larry', icon: '🐺', color: '#EC4899' },
