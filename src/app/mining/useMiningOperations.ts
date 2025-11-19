@@ -43,7 +43,7 @@ export function useMiningOperations() {
     const { data: roundData, refetch: refetchRound } = useReadContract({
         address: MINING_CONTRACT_ADDRESS,
         abi: BTBMiningABI,
-        functionName: 'rounds',
+        functionName: 'getRound',
         args: currentRoundId !== undefined ? [currentRoundId] : undefined,
         query: {
             enabled: currentRoundId !== undefined,
@@ -61,7 +61,10 @@ export function useMiningOperations() {
             enabled: !!address,
             refetchInterval: 10000,
         }
+
     });
+
+
 
     // Helpers
     const handleSquareClick = (squareId: number) => {
