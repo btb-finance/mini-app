@@ -46,7 +46,7 @@ export function BottomNav({ items, activeItem, onItemClick }: BottomNavProps) {
     <div className="fixed bottom-0 left-0 right-0 z-50 pb-safe">
       <div className="relative mx-auto max-w-md">
         {/* Glassmorphism background */}
-        <div className="absolute inset-0 bg-gradient-to-t from-white/95 via-white/90 to-white/80 dark:from-gray-900/95 dark:via-gray-900/90 dark:to-gray-900/80 backdrop-blur-xl border-t border-gray-200/50 dark:border-gray-700/50 shadow-2xl" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0f1115]/95 via-[#0f1115]/90 to-[#0f1115]/80 backdrop-blur-xl border-t border-white/10 shadow-2xl" />
 
         {/* Active indicator gradient background */}
         <div className="absolute -top-px inset-x-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500" />
@@ -60,11 +60,10 @@ export function BottomNav({ items, activeItem, onItemClick }: BottomNavProps) {
                 <button
                   key={item.id}
                   onClick={(e) => handleClick(item.id, e)}
-                  className={`relative flex flex-col items-center justify-center min-w-[60px] py-2 px-3 rounded-2xl transition-all duration-300 transform ${
-                    isActive
-                      ? 'scale-105'
-                      : 'scale-100 hover:scale-105 active:scale-95'
-                  }`}
+                  className={`relative flex flex-col items-center justify-center min-w-[60px] py-2 px-3 rounded-2xl transition-all duration-300 transform ${isActive
+                    ? 'scale-105'
+                    : 'scale-100 hover:scale-105 active:scale-95'
+                    }`}
                   style={{
                     animationDelay: `${index * 50}ms`,
                   }}
@@ -96,11 +95,10 @@ export function BottomNav({ items, activeItem, onItemClick }: BottomNavProps) {
                   {/* Icon container */}
                   <div className="relative mb-1">
                     <div
-                      className={`text-2xl transition-all duration-300 ${
-                        isActive
+                      className={`text-2xl transition-all duration-300 ${isActive
                           ? 'transform -translate-y-0.5 drop-shadow-lg'
-                          : 'opacity-70'
-                      }`}
+                          : 'opacity-70 text-gray-400'
+                        }`}
                     >
                       {item.icon}
                     </div>
@@ -120,11 +118,10 @@ export function BottomNav({ items, activeItem, onItemClick }: BottomNavProps) {
 
                   {/* Label */}
                   <span
-                    className={`text-[10px] font-semibold transition-all duration-300 ${
-                      isActive
+                    className={`text-[10px] font-semibold transition-all duration-300 ${isActive
                         ? 'opacity-100 translate-y-0'
-                        : 'opacity-60 translate-y-0.5'
-                    }`}
+                        : 'opacity-60 translate-y-0.5 text-gray-400'
+                      }`}
                     style={{
                       color: isActive ? item.color : undefined,
                     }}

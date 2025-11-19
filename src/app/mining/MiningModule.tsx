@@ -29,7 +29,8 @@ export function MiningModule({ className = "", isFullscreen = false, onBack }: M
         roundInfo,
         minerStats,
         txMessage,
-        isProcessing
+        isProcessing,
+        isLoadingRound
     } = useMiningOperations();
 
     // Calculate total cost
@@ -39,7 +40,9 @@ export function MiningModule({ className = "", isFullscreen = false, onBack }: M
 
     // Format time remaining
     const getTimeRemaining = () => {
-        if (!roundInfo || !roundInfo.timerStarted) return 'Waiting for start...';
+        if (isLoadingRound) return 'Loading...';
+        if (!roundInfo) return 'Error';
+        if (!roundInfo.timerStarted) return 'Waiting for start...';
         const now = Math.floor(Date.now() / 1000);
         const end = Number(roundInfo.endTime);
         const diff = end - now;
@@ -72,16 +75,16 @@ export function MiningModule({ className = "", isFullscreen = false, onBack }: M
                         <Pickaxe className="w-6 h-6 md:w-8 md:h-8 text-yellow-500" />
                         <span className="gradient-text">BTB Mining</span>
                     </h1>
-                    <p className="text-muted-foreground text-sm md:text-base">
+                    <p className="text-muted-foreground text-xs md:text-sm px-4">
                         Deploy miners to squares and find the motherlode!
                     </p>
                 </div>
 
                 {/* Stats Bar */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 animate-slide-up">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 animate-slide-up">
                     <StatsCard
                         label="Round Pot"
-                        value={`${roundInfo ? formatEther(roundInfo.totalDeployed) : '0'} ETH`}
+                        value={isLoadingRound ? "..." : `${roundInfo ? formatEther(roundInfo.totalDeployed) : '0'} ETH`}
                         icon={<Coins className="w-4 h-4 text-yellow-500" />}
                     />
                     <StatsCard
@@ -101,9 +104,9 @@ export function MiningModule({ className = "", isFullscreen = false, onBack }: M
                     />
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="flex flex-col gap-4">
                     {/* Game Grid */}
-                    <div className="lg:col-span-2 animate-scale-in">
+                    <div className="animate-scale-in">
                         <div className="glass rounded-2xl p-3 md:p-4 shadow-xl border border-white/10">
                             <div className="grid grid-cols-5 gap-1 md:gap-2 aspect-square">
                                 {Array.from({ length: 25 }).map((_, i) => {
@@ -148,31 +151,31 @@ export function MiningModule({ className = "", isFullscreen = false, onBack }: M
                     </div>
 
                     {/* Controls */}
-                    <div className="space-y-4 animate-slide-up">
-                        <div className="glass rounded-2xl p-4 md:p-5 shadow-xl border border-white/10 space-y-4">
+                    <div className="space-y-3 animate-slide-up">
+                        <div className="glass rounded-2xl p-4 shadow-xl border border-white/10 space-y-3">
                             <h3 className="font-bold text-lg">Deploy Miners</h3>
 
-                            <div className="space-y-2">
-                                <label className="text-sm text-gray-400">ETH per Square</label>
-                                <div className="relative">
+                            <div className="flex items-center gap-3">
+                                <label className="text-sm text-gray-400 whitespace-nowrap">ETH / Square</label>
+                                <div className="relative flex-1">
                                     <input
                                         type="number"
                                         value={amountPerSquare}
                                         onChange={(e) => setAmountPerSquare(e.target.value)}
                                         placeholder="0.001"
-                                        className="w-full bg-black/20 border border-white/10 rounded-xl py-3 pl-4 pr-12 font-mono focus:outline-none focus:border-yellow-500/50 transition-all"
+                                        className="w-full bg-black/20 border border-white/10 rounded-lg py-2 pl-3 pr-10 font-mono text-sm focus:outline-none focus:border-yellow-500/50 transition-all"
                                     />
-                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm text-gray-500">ETH</span>
+                                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-500">ETH</span>
                                 </div>
                             </div>
 
-                            <div className="p-3 bg-white/5 rounded-xl space-y-2 text-sm">
-                                <div className="flex justify-between">
-                                    <span className="text-gray-400">Selected</span>
-                                    <span className="font-bold">{selectedSquares.length} squares</span>
+                            <div className="grid grid-cols-2 gap-2 text-xs">
+                                <div className="p-2 bg-white/5 rounded-lg flex flex-col items-center justify-center">
+                                    <span className="text-gray-400 mb-1">Selected</span>
+                                    <span className="font-bold">{selectedSquares.length}</span>
                                 </div>
-                                <div className="flex justify-between">
-                                    <span className="text-gray-400">Total Cost</span>
+                                <div className="p-2 bg-white/5 rounded-lg flex flex-col items-center justify-center">
+                                    <span className="text-gray-400 mb-1">Total Cost</span>
                                     <span className="font-bold text-yellow-500">{totalCost} ETH</span>
                                 </div>
                             </div>
@@ -235,14 +238,14 @@ export function MiningModule({ className = "", isFullscreen = false, onBack }: M
 
 function StatsCard({ label, value, icon }: { label: string, value: string, icon: React.ReactNode }) {
     return (
-        <div className="glass p-3 rounded-xl border border-white/5 hover:border-white/10 transition-colors">
+        <div className="glass p-3 rounded-xl border border-white/5 hover:border-white/10 transition-colors overflow-hidden">
             <div className="flex items-center gap-2 mb-1">
-                <div className="p-1.5 bg-white/5 rounded-lg">
+                <div className="p-1.5 bg-white/5 rounded-lg shrink-0">
                     {icon}
                 </div>
-                <span className="text-xs text-gray-400 font-medium">{label}</span>
+                <span className="text-xs text-gray-400 font-medium truncate">{label}</span>
             </div>
-            <div className="text-lg font-bold tracking-tight pl-1 truncate">
+            <div className="text-sm md:text-lg font-bold tracking-tight pl-1 break-words">
                 {value}
             </div>
         </div>

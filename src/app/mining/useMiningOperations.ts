@@ -44,9 +44,9 @@ export function useMiningOperations() {
         address: MINING_CONTRACT_ADDRESS,
         abi: BTBMiningABI,
         functionName: 'rounds',
-        args: currentRoundId ? [currentRoundId] : undefined,
+        args: currentRoundId !== undefined ? [currentRoundId] : undefined,
         query: {
-            enabled: !!currentRoundId,
+            enabled: currentRoundId !== undefined,
             refetchInterval: 5000, // Refresh every 5s
         }
     });
@@ -178,6 +178,7 @@ export function useMiningOperations() {
             btb: minerStatsTyped[1]
         } : null,
         txMessage,
-        isProcessing: isDeployPending || isDeployConfirming || isClaimPending || isClaimConfirming
+        isProcessing: isDeployPending || isDeployConfirming || isClaimPending || isClaimConfirming,
+        isLoadingRound: !roundData && currentRoundId !== undefined
     };
 }
