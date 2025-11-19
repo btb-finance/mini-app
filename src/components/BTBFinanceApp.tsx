@@ -32,6 +32,8 @@ import { MegaPotModule } from "../app/megapot";
 import { NFTModule } from "../app/nft";
 import { NFT_PRICE_BTB } from "../app/nft/constants";
 import { LarryModule } from "../app/larry";
+import { TokenModule } from "../app/token";
+import { MiningModule } from "../app/mining";
 import { BottomNav, NavItem } from "~/components/ui/BottomNav";
 import frameSDK from "@farcaster/frame-sdk";
 
@@ -211,6 +213,8 @@ export default function Demo(
   const navItems: NavItem[] = [
     { id: 'home', label: 'Home', icon: '🏠', color: '#3B82F6' },
     { id: 'megapot', label: 'Mega Pot', icon: '🎯', badge: '15%', color: '#EF4444' },
+    { id: 'mining', label: 'Mining', icon: '⛏️', color: '#F59E0B' },
+    { id: 'token', label: 'Exchange', icon: '💱', color: '#10B981' },
     { id: 'nft', label: 'NFTs', icon: '💎', color: '#8B5CF6' },
     { id: 'larry', label: 'Larry', icon: '🐺', color: '#EC4899' },
   ];
@@ -224,7 +228,7 @@ export default function Demo(
       // Haptic not supported
     }
 
-    if (feature === 'megapot' || feature === 'nft' || feature === 'larry') {
+    if (feature === 'megapot' || feature === 'nft' || feature === 'larry' || feature === 'token' || feature === 'mining') {
       setIsFullscreen(true);
     }
     setActiveFeature(feature);
@@ -256,6 +260,20 @@ export default function Demo(
       case 'larry':
         return (
           <LarryModule
+            isFullscreen={isFullscreen}
+            onBack={handleBackFromFullscreen}
+          />
+        );
+      case 'token':
+        return (
+          <TokenModule
+            isFullscreen={isFullscreen}
+            onBack={handleBackFromFullscreen}
+          />
+        );
+      case 'mining':
+        return (
+          <MiningModule
             isFullscreen={isFullscreen}
             onBack={handleBackFromFullscreen}
           />
@@ -340,6 +358,8 @@ export default function Demo(
                   </h4>
                   <p className="text-xs text-gray-600 dark:text-gray-400">
                     {item.id === 'megapot' && 'Win big prizes'}
+                    {item.id === 'mining' && 'Find the Motherlode'}
+                    {item.id === 'token' && 'Buy & Sell BTB'}
                     {item.id === 'nft' && 'Mint NFTs'}
                     {item.id === 'larry' && 'Trade & leverage'}
                   </p>
@@ -525,8 +545,8 @@ function SendEth() {
             {isConfirming
               ? "Confirming..."
               : isConfirmed
-              ? "Confirmed!"
-              : "Pending"}
+                ? "Confirmed!"
+                : "Pending"}
           </div>
         </div>
       )}

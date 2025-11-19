@@ -1,0 +1,4 @@
+import BTBMiningABI from './BTBMiningABI.json';
+
+export const MINING_CONTRACT_ADDRESS = "0x88888DC54965374764F85cB5AB1B45DCEf186508";
+export { BTBMiningABI };
