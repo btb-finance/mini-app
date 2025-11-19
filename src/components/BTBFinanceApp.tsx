@@ -45,13 +45,6 @@ export default function Demo(
 ) {
   const { isSDKLoaded, context, added, notificationDetails, lastEvent, addFrame, addFrameResult } = useFrameContext();
 
-  // Check if addMiniApp is supported (for Base compatibility)
-  const [supportsAddMiniApp, setSupportsAddMiniApp] = useState(true);
-  useEffect(() => {
-    if (isSDKLoaded) {
-      setSupportsAddMiniApp(typeof (frameSDK.actions as any).addMiniApp === 'function');
-    }
-  }, [isSDKLoaded]);
 
   const [isContextOpen, setIsContextOpen] = useState(false);
   const [txHash, setTxHash] = useState<string | null>(null);
