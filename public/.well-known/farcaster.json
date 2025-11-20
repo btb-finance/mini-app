@@ -32,7 +32,7 @@
     "ogTitle": "BTB Finance",
     "ogDescription": "Complete DeFi platform with staking, liquidity pools, and yield farming on Base.",
     "ogImageUrl": "https://mini.btb.finance/images/btb-banner.png",
-    "buttonTitle": "Launch DeFi",
+    "buttonTitle": "Start Mining",
     "webhookUrl": "https://api.neynar.com/f/app/b8ef3593-7d21-4e7e-8e37-17adfec955d8/event",
     "noindex": false
   }
