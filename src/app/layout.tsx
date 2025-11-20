@@ -32,7 +32,7 @@ export const metadata: Metadata = {
       version: "next",
       imageUrl: process.env.NEXT_PUBLIC_URL ? `${process.env.NEXT_PUBLIC_URL}/images/btb-banner.png` : "https://mini.btb.finance/images/btb-banner.png",
       button: {
-        title: "Launch BTB Finance",
+        title: "Start Mining",
         action: {
           type: "launch_frame",
           name: "BTB Finance",
