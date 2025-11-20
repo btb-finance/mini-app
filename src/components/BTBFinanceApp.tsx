@@ -308,11 +308,7 @@ export default function Demo(
                 Add to Farcaster
               </Button>
             </div>
-            {addFrameResult && (
-              <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                {addFrameResult}
-              </div>
-            )}
+
           </div>
         )}
 

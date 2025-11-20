@@ -54,6 +54,15 @@ export function useFrame() {
     }
   }, []);
 
+  const [hasAttemptedAutoAdd, setHasAttemptedAutoAdd] = useState(false);
+
+  useEffect(() => {
+    if (isSDKLoaded && !added && !hasAttemptedAutoAdd && context) {
+      setHasAttemptedAutoAdd(true);
+      addFrame();
+    }
+  }, [isSDKLoaded, added, hasAttemptedAutoAdd, context, addFrame]);
+
   useEffect(() => {
     const load = async () => {
       try {
